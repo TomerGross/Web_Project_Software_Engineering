@@ -62,12 +62,13 @@ public class DBConnect {
         }
 
     }
-    public boolean loginUser(String userName){
+    public boolean loginUser(String userName, String password){
 
 
         try {
-            PreparedStatement query = con.prepareStatement("SELECT * FROM privileges WHERE user_name = ?");
+            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles WHERE user_name = ? AND password = ?");
             query.setString(1, userName);
+            query.setString(2, password);
 
             rs = query.executeQuery();
 

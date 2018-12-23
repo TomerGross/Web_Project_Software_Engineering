@@ -17,7 +17,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         String userName = request.getParameter("userName").toString();
         String password = request.getParameter("password").toString();
 
-        if(dbconnection.loginUser(userName)){
+        if(dbconnection.loginUser(userName, password)){
             response.sendRedirect("LoginSucceed.html");
         } else {
             response.sendRedirect("LoginError.html");
