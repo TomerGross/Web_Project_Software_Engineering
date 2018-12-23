@@ -14,11 +14,11 @@ import java.util.Date;
 
 public class RegisterServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        PrintWriter out = response.getWriter();
         try {
 
             DBConnect dbconnectoin = new DBConnect();
 
-            PrintWriter out = response.getWriter();
             response.setContentType("text/html;charset=UTF-8");
 
             String userName = request.getParameter("userName").toString();
@@ -36,9 +36,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
 
             dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "candidate");
-            // add comment
             response.sendRedirect("RegisterSucceed.html");
-            out.close();
 
             //add to DB
         }
@@ -46,6 +44,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             e.printStackTrace();
             response.sendRedirect("RegisterError.html");
             return;
+        } finally {
+            out.close();
         }
 
     }

@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.*;
+import java.util.Date;
 import java.time.LocalDate;
 
 public class DBConnect {
@@ -81,6 +82,40 @@ public class DBConnect {
         return false;
     }
 
+    public int startWorking(String userName){
+
+        try {
+
+            PreparedStatement query = con.prepareStatement("INSERT INTO timewatch (user_name, start_time) VALUES (?, NOW())");
+            query.setString(1, userName);
+            rs = query.executeQuery();
+
+            return rs.getInt("count");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+
+    }
+
+    public void endWorking(int key) {
+
+        try {
+
+            PreparedStatement query = con.prepareStatement("UPDATE timewatch SET count=NOW() WHERE count = ?");
+            query.setInt(1, key);
+            query.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
     public void getData(){
@@ -102,6 +137,7 @@ public class DBConnect {
             e.printStackTrace();
         }
     }
+
 
 
 }
