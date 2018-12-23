@@ -35,7 +35,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             java.util.Date utilDate = sdf1.parse(date);
             java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
 
-            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "worker");
+            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "candidate");
 
             response.sendRedirect("RegisterSucceed.html");
             out.close();
