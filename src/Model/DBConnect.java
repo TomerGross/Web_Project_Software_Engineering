@@ -1,6 +1,7 @@
 package Model;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class DBConnect {
 
@@ -27,28 +28,46 @@ public class DBConnect {
 
     }
 
-    public void registerUser(String userName, String passw, String priv){
+    public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String repeat_psw, String phoneNumber, String gender, java.sql.Date birthday, String priv){
 
 
         try {
-            PreparedStatement query = con.prepareStatement("INSERT INTO users (user_name, password , privilege) VALUES (?, ?, ?)");
+            PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, password, repeat_password, phone_number, gender, birthday) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             query.setString(1, userName);
-            query.setString(2, passw);
-            query.setString(3, priv);
+            query.setString(2, firstName);
+            query.setString(3, lastName);
+            query.setString(4, id);
+            query.setString(5, email);
+            query.setString(6, psw);
+            query.setString(7, repeat_psw);
+            query.setString(8, phoneNumber);
+            query.setString(9, gender);
+            query.setDate(10, birthday);
+
             query.executeUpdate();
+
+            PreparedStatement second_query = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+            second_query.setString(1, userName);
+            second_query.setString(2, priv);
+
+            second_query.executeUpdate();
+
+
+
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
-    public boolean loginUser(String userName, String passw){
+    public boolean loginUser(String userName){
 
 
         try {
-            PreparedStatement query = con.prepareStatement("SELECT * FROM users WHERE user_name = ? AND password = ?");
+            PreparedStatement query = con.prepareStatement("SELECT * FROM privileges WHERE user_name = ?");
             query.setString(1, userName);
-            query.setString(2, passw);
 
             rs = query.executeQuery();
 

@@ -5,6 +5,10 @@ import Model.DBConnect;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = "/RegisterServlet")
 
@@ -18,9 +22,20 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
 
             String userName = request.getParameter("userName").toString();
-            String password = request.getParameter("psw").toString();
+            String firstName = request.getParameter("firstName").toString();
+            String lastName = request.getParameter("lastName").toString();
+            String id = request.getParameter("id").toString();
+            String email = request.getParameter("email").toString();
+            String psw = request.getParameter("psw").toString();
+            String repeat_psw = request.getParameter("psw-repeat").toString();
+            String phoneNumber = request.getParameter("phoneNumber").toString();
+            String gender = request.getParameter("gender").toString();
+            String date = request.getParameter("birthDay").toString();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date utilDate = sdf1.parse(date);
+            java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
 
-            dbconnectoin.registerUser(userName, password, "worker");
+            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "worker");
 
             response.sendRedirect("RegisterSucceed.html");
             out.close();
