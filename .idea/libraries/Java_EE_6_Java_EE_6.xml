@@ -10,7 +10,6 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
-      <root url="jar://$USER_HOME$/Desktop/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
