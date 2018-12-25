@@ -35,6 +35,9 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             java.util.Date utilDate = sdf1.parse(date);
             java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
 
+            // validations!
+            //if(!id.matches("[0-9]+")) throw new Exception("Invalid ID");
+
             dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "worker");
 
             response.sendRedirect("RegisterSucceed.html");
