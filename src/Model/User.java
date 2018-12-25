@@ -12,14 +12,11 @@ class User{
     *
     *   Characterizing:
     *       - id
-    *       - experience
     *       - first name
     *       - last name
     *       - birthday
     *       - user name, password
-    *       - template of week working hours
-    *       - salary per hour - depend on the experience
-    *       - notes
+    *
     *
     *   Privileges:
     *       - get info from db
@@ -29,7 +26,7 @@ class User{
     *       - create/change usernames and passwords
     */
 
-    private String userName, password;
+    public String userName, password;
     public String id, firstName, lastName;
     public Date birthday;
 
@@ -63,6 +60,7 @@ class User{
     void showActivityBetweenDates(){
 
     }
+
 
 
 
