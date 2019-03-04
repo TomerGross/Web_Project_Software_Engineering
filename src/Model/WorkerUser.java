@@ -15,21 +15,5 @@ class WorkerUser extends User{
     public int key = -1;
 
 
-    public void startWorking(){
-
-        DBConnect dbconnection = new DBConnect();
-        this.key = dbconnection.startWorking(this.userName);
-
-    }
-
-    public void endWorking(){
-
-        DBConnect dbconnection = new DBConnect();
-        if (this.key != -1){
-            dbconnection.endWorking(this.key);
-        }
-
-    }
-
 
 }

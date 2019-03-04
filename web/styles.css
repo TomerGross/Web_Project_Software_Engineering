@@ -40,7 +40,7 @@ input[type="text"]:focus{
 
 
 
-input[type="button"]{
+input[type="submit"]{
 
   font-size: 20px;
   font-family: "DINL";
@@ -60,12 +60,12 @@ input[type="button"]{
 
 }
 
-input[type="button"]:hover{
+input[type="submit"]:hover{
   color: #fff;
   background: #162d3d;
 
 }
 
-input[type="button"]:focus{
+input[type="submit"]:focus{
   cursor: wait;
 }

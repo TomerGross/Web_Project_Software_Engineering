@@ -8,8 +8,8 @@
           <element id="module-output" name="Web_Project_Software_Engineering" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="mysql-connector-java-8.0" />
           <element id="library" level="project" name="Java EE 6-Java EE 6" />
+          <element id="library" level="project" name="mysql-connector-java-8.0" />
         </element>
       </element>
     </root>

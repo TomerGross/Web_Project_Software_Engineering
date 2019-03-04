@@ -1,5 +1,7 @@
 package Model;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.sql.*;
 import java.util.Date;
 import java.time.LocalDate;
@@ -12,24 +14,46 @@ public class DBConnect {
     private Connection con;
     private Statement st;
     private ResultSet rs;
+    private static DBConnect single_instance = null;
+
+    public static DBConnect getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new DBConnect();
+
+        return single_instance;
+    }
 
 
-    public DBConnect(){
+    private DBConnect(){
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "");
-
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+            //TODO: CREATE AUTOMATIC DB
+            /*
             String query = "CREATE DATABASE IF NOT EXISTS project_db";
             st = con.createStatement();
             st.executeUpdate(query);
+            */
 
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db", "root", "");
+            st = con.createStatement();
 
+            String query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20), first_name VARCHAR(20), last_name VARCHAR(20), id VARCHAR(9), email VARCHAR(40), psw VARCHAR(20), PRIMARY KEY (user_name))";
+            st.executeUpdate(query);
+
+            query = "CREATE TABLE IF NOT EXISTS `project_db`. `privileges` ( user_name VARCHAR(20), privilege VARCHAR(20) )";
+            st.executeUpdate(query);
+
+            out.println("con: " + con);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
             e.printStackTrace();
         }
 
@@ -40,17 +64,14 @@ public class DBConnect {
 
 
         try {
-            PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, password, repeat_password, phone_number, gender, birthday) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, password) VALUES (?, ?, ?, ?, ?, ?)");
             query.setString(1, userName);
             query.setString(2, firstName);
             query.setString(3, lastName);
             query.setString(4, id);
             query.setString(5, email);
             query.setString(6, psw);
-            query.setString(7, repeat_psw);
-            query.setString(8, phoneNumber);
-            query.setString(9, gender);
-            query.setDate(10, birthday);
+
 
             query.executeUpdate();
 
@@ -74,7 +95,7 @@ public class DBConnect {
 
 
         try {
-            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles WHERE user_name = ? AND password = ?");
+            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles WHERE user_name = ? AND psw = ?");
             query.setString(1, userName);
             query.setString(2, password);
 
@@ -87,55 +108,6 @@ public class DBConnect {
         }
 
         return false;
-    }
-
-    public int startWorking(String userName){
-
-        try {
-
-            PreparedStatement query = con.prepareStatement("INSERT INTO timewatch (user_name, start_time) VALUES (?, NOW())");
-            query.setString(1, userName);
-            rs = query.executeQuery();
-
-            return rs.getInt("count");
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
-
-
-    }
-
-    public void endWorking(int key) {
-
-        try {
-
-            PreparedStatement query = con.prepareStatement("UPDATE timewatch SET end_time=NOW() WHERE count = ?"); //end time?
-            query.setInt(1, key);
-            query.executeUpdate();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public void getWorkList(String username) //check it tuti
-    {
-        try {
-            PreparedStatement query = con.prepareStatement("SELECT * FROM timewatch WHERE username = ?");//username?
-            query.setString(1, username);
-            ResultSet rs=query.executeQuery();
-            while(rs!=null) {
-                out.println(rs.getDate("start_time")+" - "+rs.getDate("end_time"));
-                rs.next();
-            }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
 

@@ -12,7 +12,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            DBConnect dbconnectoin = new DBConnect();
+            DBConnect dbconnectoin = DBConnect.getInstance();
+            ;
 
             response.setContentType("text/html;charset=UTF-8");
 
