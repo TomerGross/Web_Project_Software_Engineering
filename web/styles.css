@@ -1,0 +1,71 @@
+@font-face {
+    font-family: "DINL";
+    src: url("D:/DINL.otf") format("opentype");
+
+    /* TODO: Create a server and upload all the fonts files */
+}
+
+body{
+  text-align: center;
+  font-size: 20px;
+  font-family: "DINL";
+  -webkit-font-smoothing: antialiased;
+}
+
+input[type="text"]{
+
+  font-size: 20px;
+  font-family: "DINL";
+  outline: 0;
+  border-width: 0 0 1px;
+  border-bottom: solid 1px #e1e1e1;
+  padding-top: 8px;
+  padding-left: 8px;
+  padding-bottom: 8px;
+  padding-right: 8px;
+  height: 36px;
+  box-sizing: border-box;
+
+}
+
+input[type="text"]:hover{
+  border-color: #162d3d;
+
+}
+
+input[type="text"]:focus{
+  border-color: #162d3d;
+  border-width: 0 0 2px;
+}
+
+
+
+input[type="button"]{
+
+  font-size: 20px;
+  font-family: "DINL";
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid #162d3d;
+  background: none;
+  color: #162d3d;
+
+  padding-top: 3px;
+  padding-left: 8px;
+  padding-bottom: 8px;
+  padding-right: 8px;
+  height: 36px;
+  transition: 0.8s ease-in-out;
+
+
+}
+
+input[type="button"]:hover{
+  color: #fff;
+  background: #162d3d;
+
+}
+
+input[type="button"]:focus{
+  cursor: wait;
+}

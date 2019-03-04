@@ -1,130 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {font-family: Arial, Helvetica, sans-serif;}
-        form {border: none;}
 
-        input[type=text], input[type=password], input[type=email], input[type=date], input[type=tel], select {
-            width: 20%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
+<meta charset="utf-8">
+<title></title>
 
-        button {
-            background-color: #44ad48;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 20%;
-        }
-
-        button:hover {
-            opacity: 0.8;
-        }
-
-        .container {
-            padding: 0px;
-
-        }
-
-
-    </style>
 </head>
 
 
 <body>
-<form method="post" action="RegisterServlet">
 
-<div class="container">
-    <h2><u>Register Page</u></h2>
+<h>REGISTER</h>
 
+<br>
+<br>
 
-    <label><b>First name</b></label>
-    <br>
-    <input type="text" placeholder="Enter first name" name="firstName" required>
-    <br>
+<form action="RegisterServlet">
+  <input type="text" name="firstname" placeholder="First Name">
+  <br>
 
+  <input type="text" name="lastname" placeholder="Last Name">
+  <br>
 
-    <label><b>Last name</b></label>
-    <br>
-    <input type="text" placeholder="Enter last name" name="lastName" required>
-    <br>
+  <input type="text" name="id" placeholder="Id">
+  <br>
 
-    <label><b>Id</b></label>
-    <br>
-    <input type="text" placeholder="Enter id" name="id" required>
-    <br>
+  <input type="email" name="email" placeholder="Email">
+  <br>
 
 
-    <label><b>Email</b></label>
-    <br>
-    <input type="text" placeholder="Enter Email" name="email" required>
-    <br>
+  <input type="text" name="user_name" placeholder="User Name">
+  <br>
 
+  <input type="password" name="psw" placeholder="Password">
+  <br>
 
-    <label><b>User name</b></label>
-    <br>
-    <input type="text" placeholder="Enter user name" name="userName" required>
-    <br>
+  <input type="password" name="r_psw" placeholder="Repeat Password">
+  <br>
 
-
-    <label><b>Password</b></label>
-    <br>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-    <br>
-
-
-
-    <label><b>Repeat Password</b></label>
-    <br>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-    <br>
-
-
-
-    <label><b>Phone number</b></label>
-    <br>
-    <input type="tel" placeholder="Enter phone number" name="phoneNumber">
-    <br>
-
-
-    <label><b>Birthday</b></label>
-    <br>
-    <input type="date" placeholder="Enter BirthDay" name="birthDay">
-    <br>
-
-
-    <label><b>Gender</b></label>
-    <br>
-    <select id="gender" name="gender">
-        <option value="default"></option>
-        <option value="male">male</option>
-        <option value="female">female</option>
-        <option value="other">other</option>
-    </select>
-
-    <br>
-
-
-
-</div>
-    <button type="submit">Register</button>
-
-    <div class="container">
-        <p>Already have an account? <a href="http://localhost:8080/index.html">Sign in</a>.</p>
-    </div>
+  <input type="submit" value="register">
+  <a href="LoginPage.html">back to login</a>
 
 
 </form>
 
 
 </body>
+
 </html>

@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.Date;
 import java.time.LocalDate;
 
+import static java.lang.System.out;
+import static java.lang.Thread.sleep;
+
 public class DBConnect {
 
     private Connection con;
@@ -15,8 +18,15 @@ public class DBConnect {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "");
+
+            String query = "CREATE DATABASE IF NOT EXISTS project_db";
             st = con.createStatement();
+            st.executeUpdate(query);
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db", "root", "");
+
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -119,7 +129,7 @@ public class DBConnect {
             query.setString(1, username);
             ResultSet rs=query.executeQuery();
             while(rs!=null) {
-                System.out.println(rs.getDate("start_time")+" - "+rs.getDate("end_time"));
+                out.println(rs.getDate("start_time")+" - "+rs.getDate("end_time"));
                 rs.next();
             }
         }
@@ -136,11 +146,11 @@ public class DBConnect {
             String query = "SELECT * FROM USERS";
             rs = st.executeQuery(query);
 
-            System.out.println("DB Records:");
+            out.println("DB Records:");
             while (rs.next()){
 
-                System.out.println("\nname: " + rs.getString("user_name"));
-                System.out.println("password: " + rs.getString("password"));
+                out.println("\nname: " + rs.getString("user_name"));
+                out.println("password: " + rs.getString("password"));
 
             }
 
