@@ -1,6 +1,6 @@
 @font-face {
     font-family: "DINL";
-    src: url("D:/DINL.otf") format("opentype");
+    src: url("/Extra/DINL.otf") format("opentype");
 
     /* TODO: Create a server and upload all the fonts files */
 }
