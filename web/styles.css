@@ -16,7 +16,7 @@ body{
 }
 
 input[type="text"]{
-
+  background: #deeaee;
   font-size: 20px;
   font-family: "DINL";
   outline: 0;
@@ -32,11 +32,15 @@ input[type="text"]{
 }
 
 input[type="text"]:hover{
+  background: #deeaee;
+
   border-color: #162d3d;
 
 }
 
 input[type="text"]:focus{
+  background: #deeaee;
+
   border-color: #162d3d;
   border-width: 0 0 2px;
 }
