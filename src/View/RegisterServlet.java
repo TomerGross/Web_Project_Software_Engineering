@@ -13,7 +13,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         try {
 
             DBConnect dbconnectoin = DBConnect.getInstance();
-            ;
+
 
             response.setContentType("text/html;charset=UTF-8");
 
@@ -23,15 +23,11 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             String id = request.getParameter("id").toString();
             String email = request.getParameter("email").toString();
             String psw = request.getParameter("psw").toString();
-            String repeat_psw = request.getParameter("psw-repeat").toString();
-            String phoneNumber = request.getParameter("phoneNumber").toString();
-            String gender = request.getParameter("gender").toString();
-            String date = request.getParameter("birthDay").toString();
-            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-            java.util.Date utilDate = sdf1.parse(date);
-            java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
+            String repeat_psw = request.getParameter("r_psw").toString();
 
-            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, repeat_psw, phoneNumber, gender, birthday, "candidate");
+            //TODO: VALIDATE PASSSORD
+
+            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
             response.sendRedirect("RegisterSucceed.html");
 
             //add to DB

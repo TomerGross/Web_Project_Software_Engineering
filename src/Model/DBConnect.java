@@ -29,20 +29,20 @@ public class DBConnect {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
-            //TODO: CREATE AUTOMATIC DB
-            /*
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phpmyadmin?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+
             String query = "CREATE DATABASE IF NOT EXISTS project_db";
             st = con.createStatement();
             st.executeUpdate(query);
-            */
 
-            st = con.createStatement();
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
 
-            String query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20), first_name VARCHAR(20), last_name VARCHAR(20), id VARCHAR(9), email VARCHAR(40), psw VARCHAR(20), PRIMARY KEY (user_name))";
+
+
+            query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20), first_name VARCHAR(20), last_name VARCHAR(20), id VARCHAR(9), email VARCHAR(40), psw VARCHAR(20), PRIMARY KEY (user_name))";
             st.executeUpdate(query);
 
-            query = "CREATE TABLE IF NOT EXISTS `project_db`. `privileges` ( user_name VARCHAR(20), privilege VARCHAR(20) )";
+            query = "CREATE TABLE IF NOT EXISTS `project_db`. `privileges` ( user_name VARCHAR(20), privilege ENUM('candidate','worker','manager','admin'), FOREIGN KEY fk_un(user_name) REFERENCES profiles(user_name) ON UPDATE CASCADE ON DELETE NO ACTION )";
             st.executeUpdate(query);
 
             out.println("con: " + con);
@@ -60,11 +60,11 @@ public class DBConnect {
 
     }
 
-    public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String repeat_psw, String phoneNumber, String gender, java.sql.Date birthday, String priv){
+    public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String priv){
 
 
         try {
-            PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, password) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, psw) VALUES (?, ?, ?, ?, ?, ?)");
             query.setString(1, userName);
             query.setString(2, firstName);
             query.setString(3, lastName);
