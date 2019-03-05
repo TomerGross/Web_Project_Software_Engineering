@@ -25,7 +25,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             String psw = request.getParameter("psw").toString();
             String repeat_psw = request.getParameter("r_psw").toString();
 
-            //TODO: VALIDATE PASSSORD
+            //TODO: VALIDATE PASSSWORD
 
             dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
             response.sendRedirect("RegisterSucceed.html");

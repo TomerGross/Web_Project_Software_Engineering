@@ -15,7 +15,7 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-input[type="text"]{
+input{
   background: #deeaee;
   font-size: 20px;
   font-family: "DINL";
@@ -31,14 +31,14 @@ input[type="text"]{
 
 }
 
-input[type="text"]:hover{
+input:hover{
   background: #deeaee;
 
   border-color: #162d3d;
 
 }
 
-input[type="text"]:focus{
+input:focus{
   background: #deeaee;
 
   border-color: #162d3d;

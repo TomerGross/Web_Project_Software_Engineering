@@ -16,7 +16,35 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
         System.out.println("user: " + userName+ " Password: " + psw);
 
         if(dbconnection.loginUser(userName, psw)){
-            response.sendRedirect("LoginSucceed.html");
+
+            String priv = dbconnection.getPrivilege(userName);
+
+            switch (priv){
+
+                case "candidate":
+                    response.sendRedirect("CandidateMain.html");
+                    break;
+
+                case "worker":
+                    response.sendRedirect("WorkerMain.html");
+                    break;
+
+                case "manager":
+                    response.sendRedirect("ManagerMain.html");
+                    break;
+
+                case "admin":
+                    response.sendRedirect("AdminMain.html");
+                    break;
+
+                default:
+                    response.sendRedirect("CandidateMain.html");
+                    break;
+
+
+            }
+
+
         } else {
             response.sendRedirect("LoginError.html");
 

@@ -112,6 +112,32 @@ public class DBConnect {
 
 
 
+    public String getPrivilege(String userName){
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT * FROM privileges WHERE user_name = ?");
+            query.setString(1, userName);
+
+            rs = query.executeQuery();
+            if (rs.next()){
+                return rs.getString("privilege");
+
+            }
+
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "candidate"; //default for error
+
+    }
+
+
+
+
+
     public void getData(){
         try {
 
