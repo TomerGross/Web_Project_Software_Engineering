@@ -16,6 +16,9 @@ public class Meeting {
         this.users = users;
     }
 
+    public Date getDate(){
+        return this.date;
+    }
 
     public boolean addUserToMeeting(String id)
     {
@@ -52,9 +55,7 @@ public class Meeting {
     }
 
 
-
-
-
-
-
+    public Vector<String> getUsers() {
+        return this.users;
+    }
 }

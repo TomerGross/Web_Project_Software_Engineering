@@ -220,6 +220,40 @@ public class DBConnect {
         }
     }
 
-    public void createMeeting(Meeting meeting) {
+    public int getMaxKey(ResultSet rs) throws SQLException {
+        int max = 0;
+
+        while (rs.next()){
+            if(rs.getInt("m_key") > max){
+                max = rs.getInt("m_key");
+            }
+
+        }
+        return max;
+    }
+
+    public void createMeeting(Meeting meeting) throws SQLException {
+        PreparedStatement query = con.prepareStatement("INSERT INTO meetings (day) VALUES (?)");
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("yyyy-MM-dd 00:00:00");
+
+        String currentTime = sdf.format(meeting.getDate());
+        query.setString(1, currentTime);
+
+        rs = query.executeQuery();
+
+
+        int key = getMaxKey(rs);
+
+
+
+        for(String userName : meeting.getUsers()) {
+            query = con.prepareStatement("INSERT INTO users_meetings (m_key, user_name) VALUES (?, ?)");
+            query.setInt(1, key);
+            query.setString(2,  userName);
+            query.executeQuery();
+
+        }
+
     }
 }

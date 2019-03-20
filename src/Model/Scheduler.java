@@ -76,7 +76,7 @@ public class Scheduler {
 
     }
 
-    public boolean setMeeting(Vector<String> userNames){
+    public boolean setMeeting(Vector<String> userNames) throws SQLException {
 
         Date date = Calendar.getInstance().getTime();
 
@@ -106,17 +106,44 @@ public class Scheduler {
         return true;
     }
 
-    public Meeting[] viewMeetings(User user) {
+    public Vector<Integer> getMeetingsKeys(String userName) throws SQLException {
+        Vector<Integer> list=new Vector<>();
+        DBConnect dbConnect = DBConnect.getInstance();
+        Connection con = dbConnect.getConnetion();
 
+        String query = "SELECT * FROM `users_meetings` WHERE users_meetings.user_name = ?";
 
+        PreparedStatement p_query = con.prepareStatement(query);
+        p_query.setString(1,userName);
 
-        return null;
+        ResultSet rs = p_query.executeQuery();
+
+        while(rs.next()) list.add(rs.getInt("m_key"));
+
+        return list;
     }
 
-    public void cancelMeeting(Meeting meeting) {}
 
-    public Meeting[] getMeetingsToday(){
-        return null;
+    public Integer getMeetingKeyToday(String userName) throws SQLException {
+        Vector<Integer> list = getMeetingsKeys(userName);
+        DBConnect dbConnect = DBConnect.getInstance();
+        Connection con = dbConnect.getConnetion();
+        String currentTime,query;
+        ResultSet rs;
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("yyyy-MM-dd 00:00:00");
+        for(Integer iter : list)
+        {
+            query = "SELECT * FROM `meetings` WHERE meetings.day = ? AND meetings.m_key = ?";
+            PreparedStatement p_query = con.prepareStatement(query);
+            currentTime = sdf.format(new Date());
+            p_query.setString(1,currentTime);
+            p_query.setInt(2,iter);
+            rs = p_query.executeQuery();
+            if(rs.next()) {
+                return iter;
+            }
+        }
+        return -1;
     }
-
 }
