@@ -1,10 +1,8 @@
-package Model;
+package Conroller;
 
-import com.sun.xml.internal.bind.v2.TODO;
+import Model.Meeting;
 
 import java.sql.*;
-import java.util.Date;
-import java.time.LocalDate;
 
 import static java.lang.System.out;
 import static java.lang.Thread.sleep;
@@ -24,6 +22,9 @@ public class DBConnect {
         return single_instance;
     }
 
+    public Connection getConnetion(){
+        return this.con;
+    }
 
     private DBConnect(){
 
@@ -44,6 +45,14 @@ public class DBConnect {
 
             query = "CREATE TABLE IF NOT EXISTS `project_db`. `privileges` ( user_name VARCHAR(20), privilege ENUM('candidate','worker','manager','admin'), FOREIGN KEY fk_un(user_name) REFERENCES profiles(user_name) ON UPDATE CASCADE ON DELETE NO ACTION )";
             st.executeUpdate(query);
+
+            query = "CREATE TABLE IF NOT EXISTS `project_db`.`meetings` ( `m_key` INT(5) NOT NULL AUTO_INCREMENT , `day` DATE NOT NULL , PRIMARY KEY (`m_key`))";
+            st.executeUpdate(query);
+
+            query = "CREATE TABLE IF NOT EXISTS `project_db`.`users_meetings` ( `m_key` INT(5) NOT NULL , `user_name` VARCHAR(9) NOT NULL, FOREIGN KEY (m_key) REFERENCES meetings(m_key))";
+            st.executeUpdate(query);
+
+
 
             out.println("con: " + con);
 
@@ -134,6 +143,44 @@ public class DBConnect {
 
     }
 
+    public String[] getDetails(String user_name){
+
+        String[] details = new String[6];
+
+
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles WHERE user_name = ?");
+            query.setString(1, user_name);
+
+            rs = query.executeQuery();
+            if (rs.next()){
+                details[0] =  rs.getString("user_name");
+                details[1] =  rs.getString("first_name");
+                details[2] =  rs.getString("last_name");
+                details[3] =  rs.getString("id");
+                details[4] =  rs.getString("email");
+                details[5] =  rs.getString("psw");
+
+
+            }
+            return details;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return details;
+
+
+    }
+
+
+
+
+
+
+
 
 
 
@@ -159,5 +206,20 @@ public class DBConnect {
     }
 
 
+    public int getNumOfMeetings(String userName) {
+        try {
+            PreparedStatement query = con.prepareStatement("SELECT * FROM users_meetings WHERE user_name = ?");
+            query.setString(1, userName);
+            rs = query.executeQuery();
+            int count=0;
+            while(rs.next()) count++;
+            return count;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 
+    public void createMeeting(Meeting meeting) {
+    }
 }

@@ -26,8 +26,20 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>SchedulerServlet</servlet-name>
+        <servlet-class>View.SchedulerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SchedulerServlet</servlet-name>
+        <url-pattern>/SchedulerServlet</url-pattern>
+    </servlet-mapping>
+
+
+
     <welcome-file-list>
-        <welcome-file>LoginPage.html</welcome-file>
+        <welcome-file>LoginPage.jsp</welcome-file>
     </welcome-file-list>
 
 

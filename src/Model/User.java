@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Date;
 
-class User{
+public class User{
 
     /*
     *   MULTIPLE USER KINDS:

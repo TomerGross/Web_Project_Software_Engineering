@@ -1,18 +1,59 @@
 package Model;
 
-import javax.jws.soap.SOAPBinding;
+import Conroller.DBConnect;
+
 import java.util.Date;
+import Model.*;
+import java.util.Vector;
 
 public class Meeting {
     private Date date;
-    private User[] users;
+    private Vector<String> users;
 
-    public Meeting(Date date,User[] users){
+    public Meeting(Date date, Vector<String> users){
         this.date=date;
-        this.users= users;
+        this.users = new Vector<String>() ;
+        this.users = users;
     }
 
-    
+
+    public boolean addUserToMeeting(String id)
+    {
+       Scheduler sc =Scheduler.getInstance();
+        if(sc.free(id,date))
+        {
+            this.users.add(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeUserFromMeeting(String id)
+    {
+        for (String iter : users) {
+            if(iter.equals(id))
+            {
+                users.remove(id);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isUserInMeeting(String id)
+    {
+        for (String iter : users) {
+            if(iter.equals(id))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 
 
 

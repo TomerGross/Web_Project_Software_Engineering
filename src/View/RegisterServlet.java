@@ -1,10 +1,10 @@
 package View;
 
-import Model.*;
+import Conroller.DBConnect;
+import Model.Scheduler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 
 
 public class RegisterServlet extends javax.servlet.http.HttpServlet {
@@ -12,7 +12,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            DBConnect dbconnectoin = DBConnect.getInstance();
+            DBConnect dbconnection = DBConnect.getInstance();
 
 
             response.setContentType("text/html;charset=UTF-8");
@@ -23,14 +23,18 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             String id = request.getParameter("id").toString();
             String email = request.getParameter("email").toString();
             String psw = request.getParameter("psw").toString();
-            String repeat_psw = request.getParameter("r_psw").toString();
 
-            //TODO: VALIDATE PASSSWORD
 
-            dbconnectoin.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
-            response.sendRedirect("RegisterSucceed.html");
+            dbconnection.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
 
-            //add to DB
+            Scheduler sc = Scheduler.getInstance();
+            sc.createMeetingWithManager(userName);
+
+
+
+            response.sendRedirect("LoginPage.jsp");
+
+
         }
         catch(Exception e){
             e.printStackTrace();
