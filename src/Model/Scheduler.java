@@ -1,6 +1,5 @@
 package Model;
-import Conroller.DBConnect;
-import  Model.*;
+import Controller.DBConnect;
 
 import java.sql.*;
 import java.util.Calendar;
@@ -26,7 +25,7 @@ public class Scheduler {
         try{
             DBConnect dbConnect = DBConnect.getInstance();
 
-            Connection con = dbConnect.getConnetion();
+            Connection con = dbConnect.getConnection();
             String query = "SELECT * FROM `users_meetings`,`meetings` WHERE meetings.m_key = users_meetings.m_key AND meetings.date=? AND users_meetings.user_name = ?";
             PreparedStatement p_query = con.prepareStatement(query);
 
@@ -47,7 +46,7 @@ public class Scheduler {
     public void createMeetingWithManager(String userName) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         String query = "SELECT user_name FROM `privileges` WHERE privilege = \"manager\"";
-        Connection con = dbConnect.getConnetion();
+        Connection con = dbConnect.getConnection();
 
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -109,7 +108,7 @@ public class Scheduler {
     public Vector<Integer> getMeetingsKeys(String userName) throws SQLException {
         Vector<Integer> list=new Vector<>();
         DBConnect dbConnect = DBConnect.getInstance();
-        Connection con = dbConnect.getConnetion();
+        Connection con = dbConnect.getConnection();
 
         String query = "SELECT * FROM `users_meetings` WHERE users_meetings.user_name = ?";
 
@@ -127,7 +126,7 @@ public class Scheduler {
     public Integer getMeetingKeyToday(String userName) throws SQLException {
         Vector<Integer> list = getMeetingsKeys(userName);
         DBConnect dbConnect = DBConnect.getInstance();
-        Connection con = dbConnect.getConnetion();
+        Connection con = dbConnect.getConnection();
         String currentTime,query;
         ResultSet rs;
         java.text.SimpleDateFormat sdf =

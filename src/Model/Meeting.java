@@ -1,9 +1,6 @@
 package Model;
 
-import Conroller.DBConnect;
-
 import java.util.Date;
-import Model.*;
 import java.util.Vector;
 
 public class Meeting {

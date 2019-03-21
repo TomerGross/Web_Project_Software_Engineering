@@ -1,6 +1,6 @@
 package View;
 
-import Conroller.DBConnect;
+import Controller.DBConnect;
 import Model.Scheduler;
 
 import java.io.IOException;

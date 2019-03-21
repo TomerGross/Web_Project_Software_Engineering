@@ -1,6 +1,6 @@
 package View;
 
-import Conroller.DBConnect;
+import Controller.DBConnect;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
 
         HttpSession session=request.getSession();
-        session.setAttribute("user_name", userName);
+        session.setAttribute("userName", userName);
 
 
         if(dbconnection.loginUser(userName, psw)){

@@ -1,6 +1,6 @@
 package View;
 
-import Conroller.DBConnect;
+import Controller.DBConnect;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import Model.*;
 
 
 public class SchedulerServlet extends HttpServlet {
@@ -27,15 +26,14 @@ public class SchedulerServlet extends HttpServlet {
 
             String option = request.getParameter("option");
 
-            if(option.equals("c")) {
-                String curr_userName = (String) session.getAttribute("user_name");
+            if (option.equals("v")){
 
 
 
-            } else if (option.equals("v")){
 
             } else if (option.equals("d")){
 
+                response.sendRedirect("MyDetails.jsp");
 
 
 

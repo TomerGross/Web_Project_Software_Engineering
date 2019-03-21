@@ -1,4 +1,4 @@
-package Conroller;
+package Controller;
 
 import Model.Meeting;
 
@@ -22,7 +22,7 @@ public class DBConnect {
         return single_instance;
     }
 
-    public Connection getConnetion(){
+    public Connection getConnection(){
         return this.con;
     }
 
@@ -174,15 +174,6 @@ public class DBConnect {
 
 
     }
-
-
-
-
-
-
-
-
-
 
 
     public void getData(){
