@@ -3,6 +3,7 @@ package Controller;
 import Model.Meeting;
 
 import java.sql.*;
+import java.util.Vector;
 
 import static java.lang.System.out;
 import static java.lang.Thread.sleep;
@@ -176,24 +177,34 @@ public class DBConnect {
     }
 
 
-    public void getData(){
+    public Vector<Vector<String>> getData(){
         try {
 
-            String query = "SELECT * FROM USERS";
+
+            Vector<Vector<String>> list = new Vector<>();
+            Vector<String> temp = new Vector<>();
+
+            String query = "SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name";
             rs = st.executeQuery(query);
 
-            out.println("DB Records:");
             while (rs.next()){
 
-                out.println("\nname: " + rs.getString("user_name"));
-                out.println("password: " + rs.getString("password"));
+                temp.add(rs.getString("user_name"));
+                temp.add(rs.getString("psw"));
+                temp.add(rs.getString("privilege"));
 
+                list.add(temp);
+                temp.clear();
             }
+
+            return list;
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+
     }
 
 
