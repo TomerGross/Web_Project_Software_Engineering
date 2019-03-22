@@ -13,7 +13,7 @@
     <br>
 
     <div class="mydh">
-        <a href="MyDetails.jsp">My Details</a>
+        <a href="CandidateDetails.jsp">My Details</a>
         <a href="MyMeetings.html">My Meetings</a>
     </div>
 

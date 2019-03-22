@@ -33,7 +33,7 @@ public class SchedulerServlet extends HttpServlet {
 
             } else if (option.equals("d")){
 
-                response.sendRedirect("MyDetails.jsp");
+                response.sendRedirect("CandidateDetails.jsp");
 
 
 

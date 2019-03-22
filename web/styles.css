@@ -101,6 +101,33 @@ body{
     margin-left: 35%;
 }
 
+.usertable{
+
+    width: auto;
+    height: auto;
+    margin-left: 42%;
+    margin-top: 60px;
+    text-align: center;
+    padding: 8px 8px 8px 8px;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+}
+
+.usertable th{
+
+    background: black;
+    color: white;
+}
+
+table.usertable th, tr, td {
+    padding: 20px 20px;
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+}
+
+
 input{
     font-family: DINL;
     width: 30%;
@@ -148,4 +175,45 @@ input:focus {
 
 .inputWithIcon input:focus + i {
     color: black;
+}
+
+
+
+input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+}
+
+label {
+    color: black;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 20px 20px;
+}
+
+input[type=radio]:checked + label{
+    color: white;
+    background: black;
+}
+
+
+.radio-group {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    display: inline-block;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-left: 42%;
+    margin-top: 60px;
+}
+
+.choosebtn{
+
+margin-left: 55%;
+width: 30%;
+
 }

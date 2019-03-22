@@ -49,6 +49,18 @@
 
 
 
+    <servlet>
+        <servlet-name>AdminOperationServlet</servlet-name>
+        <servlet-class>View.AdminOperationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminOperationServlet</servlet-name>
+        <url-pattern>/AdminOperationServlet</url-pattern>
+    </servlet-mapping>
+
+
+
 
     <welcome-file-list>
         <welcome-file>LoginPage.html</welcome-file>

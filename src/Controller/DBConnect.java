@@ -31,14 +31,16 @@ public class DBConnect {
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phpmyadmin?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+
+            Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/phpmyadmin?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
+
 
             String query = "CREATE DATABASE IF NOT EXISTS project_db";
-            st = con.createStatement();
+            st = c.createStatement();
             st.executeUpdate(query);
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
-
+            st = con.createStatement();
 
 
             query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20), first_name VARCHAR(20), last_name VARCHAR(20), id VARCHAR(9), email VARCHAR(40), psw VARCHAR(20), PRIMARY KEY (user_name))";
@@ -176,25 +178,33 @@ public class DBConnect {
 
     }
 
+    public int getNumOfUsers() throws SQLException {
 
-    public Vector<Vector<String>> getData(){
+        String query = "SELECT * FROM profiles";
+        int count=0;
+        rs = st.executeQuery(query);
+
+        while (rs.next()) count++;
+        return count;
+    }
+
+    public String[][] getData(){
         try {
 
 
-            Vector<Vector<String>> list = new Vector<>();
-            Vector<String> temp = new Vector<>();
+            int num = getNumOfUsers(), count=0;
+            String[][] list = new String[num][3];
+
 
             String query = "SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name";
             rs = st.executeQuery(query);
 
             while (rs.next()){
 
-                temp.add(rs.getString("user_name"));
-                temp.add(rs.getString("psw"));
-                temp.add(rs.getString("privilege"));
-
-                list.add(temp);
-                temp.clear();
+                list[count][0] = rs.getString("user_name");
+                list[count][1] = rs.getString("psw");
+                list[count][2] = rs.getString("privilege");
+                count++;
             }
 
             return list;
@@ -203,6 +213,7 @@ public class DBConnect {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
 
     }
@@ -258,4 +269,65 @@ public class DBConnect {
         }
 
     }
+
+
+    public void removeUser(String userName) throws SQLException{
+
+
+        PreparedStatement query = con.prepareStatement("DELETE FROM privileges WHERE user_name = ?");
+        query.setString(1, userName);
+        query.executeUpdate();
+
+
+        query = con.prepareStatement("DELETE FROM users_meetings WHERE user_name = ?");
+        query.setString(1, userName);
+        query.executeUpdate();
+
+        refreshMeetings();
+
+        query = con.prepareStatement("DELETE FROM profiles WHERE user_name = ?");
+        query.setString(1, userName);
+        query.executeUpdate();
+    }
+
+    private void refreshMeetings() throws SQLException {
+        String query = "SELECT * FROM meetings";
+        rs = st.executeQuery(query);
+
+        while(rs.next()){
+            refreshMeeting(rs.getInt("m_key"));
+        }
+    }
+
+    private void refreshMeeting(int m_key) throws SQLException {
+        int num = getNumOfMeetingUsers(m_key);
+        if(num<2){
+            PreparedStatement query = con.prepareStatement("DELETE FROM meetings WHERE m_key = ?");
+            query.setInt(1, m_key);
+            query.executeUpdate();
+
+            query = con.prepareStatement("DELETE FROM users_meetings WHERE m_key = ?");
+            query.setInt(1, m_key);
+            query.executeUpdate();
+        }
+    }
+
+    private int getNumOfMeetingUsers(int m_key) throws SQLException {
+
+        PreparedStatement query = con.prepareStatement("SELECT * FROM users_meetings WHERE m_key = ?");
+        query.setInt(1, m_key);
+        rs = query.executeQuery();
+        int count=0;
+        while(rs.next()) count++;
+        return count;
+    }
+
+
+    public void setPrivilege(String userName, String priv) throws SQLException {
+        PreparedStatement query = con.prepareStatement("UPDATE privileges SET privilege = ? WHERE user_name = ?");
+        query.setString(1, priv);
+        query.setString(2, userName);
+        query.executeUpdate();
+    }
+
 }
