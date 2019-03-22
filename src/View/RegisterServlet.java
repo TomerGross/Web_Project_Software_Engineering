@@ -32,7 +32,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
 
 
 
-            response.sendRedirect("LoginPage.jsp");
+            response.sendRedirect("LoginPage.html");
 
 
         }

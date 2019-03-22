@@ -6,109 +6,127 @@
 }
 
 body{
-  background-image: url("./Extra/LoginPicture.jpg");
-  background-color: #cccccc;
-  text-align: center;
-  margin-top: 10%;
-  font-size: 72px;
-  font-family: "DINL";
-  -webkit-font-smoothing: antialiased;
+    font-family: DINL;
+    height: 100%;
+    margin: 0;
 }
+
+.sidebar{
+
+    background-color: white;
+    font-size: 20px;
+    height: 100%;
+    width: 210px;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 60px;
+    margin-left: 0px;
+    border-right: 1px solid black;
+
+}
+
+.sidebar a{
+
+    font-size: 20px;
+    padding: 8px 8px 8px 73px;
+    color: #000;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s;
+
+}
+
+.sidebar a:hover{
+    text-decoration: underline;
+}
+
+.logo img{
+    height: 190px;
+    width: auto;;
+
+}
+
+.title{
+    font-size: 70px;
+    margin-left: 38%;
+    margin-top: 5%
+
+}
+
+
+.loginbox{
+    height: 10%;
+    width: 40%;
+    font-size: 70px;
+    z-index: 1;
+    position: fixed;
+    top: 20%;
+    left: 38%;
+
+}
+
+
+.registerbox{
+    height: 10%;
+    width: 40%;
+    font-size: 40px;
+    z-index: 1;
+    position: fixed;
+    top: 20%;
+    left: 38%;
+
+}
+
+
 
 input{
-  background: #deeaee;
-  font-size: 20px;
-  font-family: "DINL";
-  outline: 0;
-  border-width: 0 0 1px;
-  border-bottom: solid 1px #e1e1e1;
-  padding-top: 8px;
-  padding-left: 8px;
-  padding-bottom: 8px;
-  padding-right: 8px;
-  height: 36px;
-  box-sizing: border-box;
-
+    font-family: DINL;
+    width: 30%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 25%;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
 }
 
-input:hover{
-  background: #deeaee;
-
-  border-color: #162d3d;
-
+input:focus {
+    border-color: black;
+    box-shadow: 0 0 8px 0 black;
 }
 
-input:focus{
-  background: #deeaee;
-
-  border-color: #162d3d;
-  border-width: 0 0 2px;
+.inputWithIcon input {
+    padding-left: 45px;
 }
 
-
-
-input[type="submit"]{
-
-  font-size: 40px;
-  font-family: "DINL";
-  border-radius: 999px;
-  cursor: pointer;
-  border: 1px solid #162d3d;
-  background: none;
-  color: #162d3d;
-
-  padding-top: 3px;
-  padding-left: 8px;
-  padding-bottom: 8px;
-  padding-right: 8px;
-  height: 72px;
-  transition: 0.8s ease-in-out;
-
-
+.inputWithIcon {
+    position: relative;
 }
 
-input[type="submit"]:hover{
-  color: #fff;
-  background: #162d3d;
-
+.loginbox .inputWithIcon i {
+    position: absolute;
+    font-size: 25px;
+    left: 192px;
+    top: 42px;
+    padding: 9px 8px;
+    color: #aaa;
+    transition: 0.3s;
 }
 
-input[type="submit"]:focus{
-  cursor: wait;
+.registerbox .inputWithIcon i{
+    position: absolute;
+    font-size: 25px;
+    left: 192px;
+    top: 13px;
+    padding: 9px 8px;
+    color: #aaa;
+    transition: 0.3s;
 }
 
-
-.login_box{
-
-  width: 400px;
-  height: 520px;
-  background: none;
-  color: black;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  border: 8px solid #162d3d;
-  border-radius: 10px;
-
-}
-
-.register_box{
-  font-size: 50px;
-
-  width: 450px;
-  height: 640px;
-  background: none;
-  color: black;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  border: 8px solid #162d3d;
-  border-radius: 10px;
-
-}
-
-.a{
-  font-size: 20px;
+.inputWithIcon input:focus + i {
+    color: black;
 }

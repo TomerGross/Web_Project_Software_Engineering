@@ -39,7 +39,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>LoginPage.jsp</welcome-file>
+        <welcome-file>LoginPage.html</welcome-file>
     </welcome-file-list>
 
 
