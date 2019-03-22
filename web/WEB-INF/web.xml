@@ -37,6 +37,18 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>OutServlet</servlet-name>
+        <servlet-class>View.OutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OutServlet</servlet-name>
+        <url-pattern>/OutServlet</url-pattern>
+    </servlet-mapping>
+
+
+
 
     <welcome-file-list>
         <welcome-file>LoginPage.html</welcome-file>

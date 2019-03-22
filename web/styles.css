@@ -11,6 +11,18 @@ body{
     margin: 0;
 }
 
+.myd{
+
+    height: 10%;
+    width: 40%;
+    font-size: 40px;
+    z-index: 1;
+    position: fixed;
+    top: 20%;
+    left: 38%;
+
+}
+
 .sidebar{
 
     background-color: white;
@@ -37,6 +49,10 @@ body{
     text-decoration: none;
     transition: 0.3s;
 
+}
+
+.mydh{
+    margin-left: -20px;
 }
 
 .sidebar a:hover{
@@ -80,7 +96,10 @@ body{
 
 }
 
-
+.sign_out_btn input{
+    margin-top: 500px;
+    margin-left: 35%;
+}
 
 input{
     font-family: DINL;

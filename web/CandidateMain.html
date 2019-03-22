@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-<meta charset="utf-8">
-<title></title>
+
+  <meta charset="utf-8">
+  <title></title>
 
 </head>
 
 
 <body>
 
-
-<h1>Welcome Candidate!</h1>
-
-
-<br>
-<br>
-
-<form action="SchedulerServlet" method="post">
-
-
-  <input type="text" name = "option">
+<div class="sidebar">
+  <div class="logo">
+    <img src="./Extra/LOGO.png">
+  </div>
   <br>
-  <input type="submit" value="done">
-  <br>
+  <div class="mydh">
+    <a href="MyDetails.jsp">My Details</a>
+    <a href="MyMeetings.html">My Meetings</a>
 
-  <a href="LoginPage.html">log out</a>
+    <form action="OutServlet" method="post">
 
-</form>
+      <div class="sign_out_btn">
+        <input type="submit" value="Sign out">
+      </div>
+
+    </form>
+  </div>
+
+
+
+
+</div>
+
+
+<div class="title">
+  Welcome Candidate
+</div>
+
 
 
 
 </body>
-
-
-
 
 </html>
