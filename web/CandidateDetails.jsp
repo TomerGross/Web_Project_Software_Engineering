@@ -2,13 +2,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="sidebar">
     <div class="logo">
-        <img src="../Extra/LOGO.png">
+        <img src="Extra/LOGO.png">
     </div>
     <br>
 

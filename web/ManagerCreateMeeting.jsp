@@ -3,31 +3,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="sidebar">
     <div class="logo">
-        <img src="../Extra/LOGO.png">
+        <img src="Extra/LOGO.png">
     </div>
     <br>
-
     <div class="mydh">
-        <a href="WorkerDetails.jsp">My Details</a>
-        <a href="WorkerMeetings.html">My Meetings</a>
-        <a href="WorkerCreateMeeting.jsp">Create Meeting</a>
+        <a href="ManagerDetails.jsp">My Details</a>
+        <a href="ManagerMeetings.html">My Meetings</a>
+        <a href="ManagerCreateMeeting.jsp">Create Meeting</a>
+        <a href="ManagerShowUsers.jsp">Active Users</a>
+        <a href="ManagerOperations.html">Operations</a>
 
+
+
+        <form action="OutServlet" method="post">
+
+            <div class="sign_out_btn_2">
+                <input type="submit" value="Sign out">
+            </div>
+
+        </form>
     </div>
-
-
-    <form action="OutServlet" method="post">
-
-        <div class="sign_out_btn">
-            <input type="submit" value="Sign out">
-        </div>
-
-    </form>
 
 </div>
 
@@ -51,10 +52,10 @@
                 for (String user: users){ %>
 
 
-                    <input type="checkbox" name="checked" value=<%=user%>><%=user%><br>
+        <input type="checkbox" name="checked" value=<%=user%>><%=user%><br>
 
         <%      }
-            }
+        }
         %>      <input type="submit" value="Create">
 
     </div>

@@ -71,6 +71,21 @@
 
 
 
+    <servlet>
+        <servlet-name>ManagerOperationServlet</servlet-name>
+        <servlet-class>View.ManagerOperationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagerOperationServlet</servlet-name>
+        <url-pattern>/ManagerOperationServlet</url-pattern>
+    </servlet-mapping>
+
+
+
+
+
+
     <welcome-file-list>
         <welcome-file>LoginPage.html</welcome-file>
     </welcome-file-list>
