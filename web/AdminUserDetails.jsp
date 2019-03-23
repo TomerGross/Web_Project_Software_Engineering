@@ -30,10 +30,13 @@
 
 </div>
 
-
+<%
+    DBConnect dbconnectoin = DBConnect.getInstance();
+    String curr_userName = (String) session.getAttribute("details");
+%>
 
 <div class="title">
-    Your Details Are:
+    <%=curr_userName%>'s Details:
 </div>
 
 
@@ -41,8 +44,7 @@
 <div class="myd">
 
     <%
-        DBConnect dbconnectoin = DBConnect.getInstance();
-        String curr_userName = (String) session.getAttribute("userName");
+
         String[] details = dbconnectoin.getDetails(curr_userName);
     %> <br> User Name: <%=details[0]%> <br><br>
     First Name: <%=details[1]%> <br><br>

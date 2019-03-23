@@ -26,7 +26,7 @@ public class Scheduler {
             DBConnect dbConnect = DBConnect.getInstance();
 
             Connection con = dbConnect.getConnection();
-            String query = "SELECT * FROM `users_meetings`,`meetings` WHERE meetings.m_key = users_meetings.m_key AND meetings.date=? AND users_meetings.user_name = ?";
+            String query = "SELECT * FROM users_meetings, meetings WHERE meetings.m_key = users_meetings.m_key AND meetings.day=? AND users_meetings.user_name = ?";
             PreparedStatement p_query = con.prepareStatement(query);
 
             java.text.SimpleDateFormat sdf =
@@ -37,11 +37,15 @@ public class Scheduler {
             p_query.setString(2,userName);
 
             ResultSet rs = p_query.executeQuery();
-            return rs.next();
+            boolean bool = rs.next();
+            System.out.println("*******************************" + bool);
+            return !bool;
         }
         catch (SQLException e){}
             return false;
         }
+
+
 
     public void createMeetingWithManager(String userName) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
@@ -68,15 +72,38 @@ public class Scheduler {
         list.add(userName);
         list.add(minGuy);
 
-        setMeeting(list);
 
 
+        setMeeting(toArray(list));
 
 
     }
 
-    public boolean setMeeting(Vector<String> userNames) throws SQLException {
 
+    public Vector<String> toVector(String[] arr){
+
+        Vector<String> vec = new Vector<>();
+        for(String iter: arr){
+            vec.add(iter);
+        }
+        return vec;
+    }
+
+    public String[] toArray(Vector<String> vec){
+
+        String[] arr = new String[vec.size()];
+        for(int i=0; i< vec.size(); i++){
+            arr[i] = vec.get(i);
+        }
+        return arr;
+    }
+
+
+
+
+    public boolean setMeeting(String[] userNames) throws SQLException {
+
+        Vector<String> temp;
         Date date = Calendar.getInstance().getTime();
 
         date.setHours(00);
@@ -88,17 +115,24 @@ public class Scheduler {
         int count = 0;
         while(count<31) {
             for (String name : userNames) {
+                System.out.println(name + " is free:" + free(name, date));
                 if(!free(name, date))
                 {
                     flag=false;
                     break;
                 }
+
             }
+
             if(flag) break;
             date = new Date(date.getTime() + TimeUnit.DAYS.toMillis( 1 ));
             count++;
+            flag=true;
         }
-        Meeting meeting =new Meeting(date,userNames);
+
+
+        temp = toVector(userNames);
+        Meeting meeting =new Meeting(date, temp);
 
         DBConnect dbConnection =DBConnect.getInstance();
         dbConnection.createMeeting(meeting);

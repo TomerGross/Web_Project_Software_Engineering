@@ -65,116 +65,26 @@ body{
 
 }
 
-.title{
-    font-size: 70px;
-    margin-left: 38%;
-    margin-top: 5%
 
-}
-
-
-.loginbox{
-    height: 10%;
-    width: 40%;
-    font-size: 70px;
-    z-index: 1;
-    position: fixed;
-    top: 20%;
-    left: 38%;
-
-}
-
-
-.registerbox{
-    height: 10%;
-    width: 40%;
-    font-size: 40px;
-    z-index: 1;
-    position: fixed;
-    top: 20%;
-    left: 38%;
-
-}
 
 .sign_out_btn input{
+    font-family: DINL;
+
     margin-top: 500px;
     margin-left: 35%;
-}
-
-.usertable{
-
-    width: auto;
-    height: auto;
-    margin-left: 42%;
-    margin-top: 60px;
-    text-align: center;
-    padding: 8px 8px 8px 8px;
-    border-collapse: collapse;
-    border-spacing: 0;
-
-}
-
-.usertable th{
-
-    background: black;
-    color: white;
-}
-
-table.usertable th, tr, td {
-    padding: 20px 20px;
-    border-bottom: 1px solid gray;
-    border-right: 1px solid gray;
-    border-left: 1px solid gray;
-}
-
-
-input{
-    font-family: DINL;
     width: 30%;
     border: 2px solid #aaa;
     border-radius: 4px;
-    margin: 8px 25%;
     outline: none;
     padding: 8px;
     box-sizing: border-box;
     transition: 0.3s;
 }
 
-input:focus {
+
+.sign_out_btn input:focus {
     border-color: black;
     box-shadow: 0 0 8px 0 black;
-}
-
-.inputWithIcon input {
-    padding-left: 45px;
-}
-
-.inputWithIcon {
-    position: relative;
-}
-
-.loginbox .inputWithIcon i {
-    position: absolute;
-    font-size: 25px;
-    left: 192px;
-    top: 42px;
-    padding: 9px 8px;
-    color: #aaa;
-    transition: 0.3s;
-}
-
-.registerbox .inputWithIcon i{
-    position: absolute;
-    font-size: 25px;
-    left: 192px;
-    top: 13px;
-    padding: 9px 8px;
-    color: #aaa;
-    transition: 0.3s;
-}
-
-.inputWithIcon input:focus + i {
-    color: black;
 }
 
 
@@ -210,4 +120,70 @@ input[type=radio]:checked + label{
     margin-left: 42%;
     margin-top: 60px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+form.operations input[type=text] {
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid black;
+    float: left;
+    width: auto;
+    background: white;
+    margin-left: 44%;
+    margin-top: 120px;
+    height: 62px;
+
+}
+
+/* Style the submit button */
+form.operations button {
+
+    float: left;
+    padding: 20px;
+    background: black;
+    color: white;
+    font-size: 20px;
+    border: 1px solid black;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+    margin-top: 120px;
+
+}
+
+form.operations button:hover {
+    color: white;
+    background: black;
+}
+
+/* Clear floats */
+form.operations::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+
+
 

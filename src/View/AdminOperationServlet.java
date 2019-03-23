@@ -44,9 +44,9 @@ import java.io.IOException;
                         dbConnect.setPrivilege(userName, "manager");
                     break;
                 case "4":
-                    String[] list = dbConnect.getDetails(userName);
-                    request.getSession().setAttribute("details",list);
-                    break;
+                    request.getSession().setAttribute("details",userName);
+                    response.sendRedirect("AdminUserDetails.jsp");
+                    return;
                 default:
                     break;
             }

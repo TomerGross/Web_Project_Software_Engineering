@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Meeting;
+import Model.Scheduler;
 
 import java.sql.*;
 import java.util.Vector;
@@ -148,7 +149,7 @@ public class DBConnect {
 
     public String[] getDetails(String user_name){
 
-        String[] details = new String[6];
+        String[] details = new String[7];
 
 
         try {
@@ -163,6 +164,7 @@ public class DBConnect {
                 details[3] =  rs.getString("id");
                 details[4] =  rs.getString("email");
                 details[5] =  rs.getString("psw");
+                details[6] =  getPrivilege(details[0]);
 
 
             }
@@ -245,6 +247,28 @@ public class DBConnect {
         return max;
     }
 
+
+
+
+
+
+    public void createMeetingWorker(String[] toMeet, String self) throws SQLException {
+
+        Scheduler sc = Scheduler.getInstance();
+        if(!isMeetingValidWorker(toMeet)) return;
+
+        String[] fullU = new String[toMeet.length+1];
+
+        for (int i=0; i< toMeet.length ; i++){
+            fullU[i] = toMeet[i];
+        }
+        fullU[toMeet.length] = self;
+        sc.setMeeting(fullU);
+
+    }
+
+
+
     public void createMeeting(Meeting meeting) throws SQLException {
         PreparedStatement query = con.prepareStatement("INSERT INTO meetings (day) VALUES (?)");
         java.text.SimpleDateFormat sdf =
@@ -252,6 +276,14 @@ public class DBConnect {
 
         String currentTime = sdf.format(meeting.getDate());
         query.setString(1, currentTime);
+
+        query.executeUpdate();
+
+
+        query = con.prepareStatement("SELECT * FROM meetings WHERE meetings.day = ?");
+
+        query.setString(1, currentTime);
+
 
         rs = query.executeQuery();
 
@@ -264,7 +296,7 @@ public class DBConnect {
             query = con.prepareStatement("INSERT INTO users_meetings (m_key, user_name) VALUES (?, ?)");
             query.setInt(1, key);
             query.setString(2,  userName);
-            query.executeQuery();
+            query.executeUpdate();
 
         }
 
@@ -330,4 +362,32 @@ public class DBConnect {
         query.executeUpdate();
     }
 
+
+
+    public String[] getUsersForMeetingWorker(String userName) throws SQLException {
+        PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
+        query.setString(1, userName);
+        query.setString(2, "admin");
+        query.setString(3, "candidate");
+        rs = query.executeQuery();
+        int count = 0;
+        while(rs.next()) count++;
+
+        rs = query.executeQuery();
+        if(count==0) return null;
+        String[] list = new String[count];
+        count=0;
+        while(rs.next()){
+            list[count]=rs.getString("user_name");
+            count++;
+        }
+        return list;
+    }
+
+    public boolean isMeetingValidWorker(String[] list){
+        int count=0;
+        for(String user : list)
+            if(getPrivilege(user).equals("manager")) count++;
+        return count<2;
+    }
 }

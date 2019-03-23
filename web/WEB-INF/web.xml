@@ -59,6 +59,15 @@
         <url-pattern>/AdminOperationServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>MeetingServlet</servlet-name>
+        <servlet-class>View.MeetingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MeetingServlet</servlet-name>
+        <url-pattern>/MeetingServlet</url-pattern>
+    </servlet-mapping>
 
 
 
