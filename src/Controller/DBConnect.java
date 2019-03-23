@@ -250,12 +250,11 @@ public class DBConnect {
 
 
 
-
-
-    public void createMeetingWorker(String[] toMeet, String self) throws SQLException {
+    public void createMeetingWM(String[] toMeet, String self) throws SQLException {
 
         Scheduler sc = Scheduler.getInstance();
-        if(!isMeetingValidWorker(toMeet)) return;
+
+        if(!isMeetingValidWorker(toMeet) && getPrivilege(self).equals("worker")) return;
 
         String[] fullU = new String[toMeet.length+1];
 
@@ -390,4 +389,6 @@ public class DBConnect {
             if(getPrivilege(user).equals("manager")) count++;
         return count<2;
     }
+
+
 }

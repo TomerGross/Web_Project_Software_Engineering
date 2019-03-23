@@ -29,23 +29,23 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             switch (priv){
 
                 case "candidate":
-                    response.sendRedirect("CandidateMain.html");
+                    response.sendRedirect("./Candidate/CandidateMain.html");
                     break;
 
                 case "worker":
-                    response.sendRedirect("WorkerMain.html");
+                    response.sendRedirect("./Worker/WorkerMain.html");
                     break;
 
                 case "manager":
-                    response.sendRedirect("ManagerMain.html");
+                    response.sendRedirect("./Manager/ManagerMain.html");
                     break;
 
                 case "admin":
-                    response.sendRedirect("AdminMain.html");
+                    response.sendRedirect("./Admin/AdminMain.html");
                     break;
 
                 default:
-                    response.sendRedirect("CandidateMain.html");
+                    response.sendRedirect("./Candidate/CandidateMain.html");
                     break;
 
 
