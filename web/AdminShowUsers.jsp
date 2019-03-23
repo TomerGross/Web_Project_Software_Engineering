@@ -43,12 +43,10 @@
 
 <%
     DBConnect dbConnect = DBConnect.getInstance();
-    list = dbConnect.getData();
-    try {
-        num = dbConnect.getNumOfUsers();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+    String curr = (String) session.getAttribute("userName");
+    list = dbConnect.getDataAdmin(curr);
+    num = list.length;
+
 %>
 
 

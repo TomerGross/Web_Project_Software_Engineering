@@ -3,6 +3,7 @@ package Controller;
 import Model.Meeting;
 import Model.Scheduler;
 
+import java.net.Inet4Address;
 import java.sql.*;
 import java.util.Vector;
 
@@ -16,8 +17,7 @@ public class DBConnect {
     private ResultSet rs;
     private static DBConnect single_instance = null;
 
-    public static DBConnect getInstance()
-    {
+    public static DBConnect getInstance() {
         if (single_instance == null)
             single_instance = new DBConnect();
 
@@ -104,6 +104,7 @@ public class DBConnect {
         }
 
     }
+
     public boolean loginUser(String userName, String password){
 
 
@@ -123,28 +124,19 @@ public class DBConnect {
         return false;
     }
 
-
-
     public String getPrivilege(String userName){
         try {
             PreparedStatement query = con.prepareStatement("SELECT * FROM privileges WHERE user_name = ?");
             query.setString(1, userName);
-
             rs = query.executeQuery();
+
             if (rs.next()){
                 return rs.getString("privilege");
-
             }
-
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return "candidate"; //default for error
-
+        return null;
     }
 
     public String[] getDetails(String user_name){
@@ -190,16 +182,26 @@ public class DBConnect {
         return count;
     }
 
-    public String[][] getData(){
+    public String[][] getDataAdmin(String curr){
         try {
 
 
-            int num = getNumOfUsers(), count=0;
-            String[][] list = new String[num][3];
+            int count=0;
 
 
-            String query = "SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name";
-            rs = st.executeQuery(query);
+
+            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name AND profiles.user_name != ?");
+            query.setString(1, curr);
+            rs = query.executeQuery();
+
+            while (rs.next()){
+
+                count++;
+            }
+
+            String[][] list = new String[count][3];
+            count=0;
+            rs = query.executeQuery();
 
             while (rs.next()){
 
@@ -208,6 +210,8 @@ public class DBConnect {
                 list[count][2] = rs.getString("privilege");
                 count++;
             }
+
+
 
             return list;
 
@@ -220,6 +224,50 @@ public class DBConnect {
 
     }
 
+    public int getNumOfUsersMWC() throws SQLException {
+        int count=0;
+        PreparedStatement query =con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name AND privileges.privilege != ?");
+        query.setString(1,"admin");
+        rs = query.executeQuery();
+
+        while (rs.next()) count++;
+        return count;
+    }
+
+
+    public String[][] getDataManager(String curr){
+        try {
+            int count=0;
+
+            PreparedStatement query =con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name AND privileges.privilege != ? AND profiles.user_name != ?");
+            query.setString(1,"admin");
+            query.setString(2, curr);
+            rs = query.executeQuery();
+
+            while (rs.next()){
+                count++;
+            }
+
+            String[][] list = new String[count][4];
+            count=0;
+            rs = query.executeQuery();
+
+            while (rs.next()){
+
+                list[count][0] = rs.getString("user_name");
+                list[count][1] = rs.getString("first_name");
+                list[count][2] = rs.getString("last_name");
+                list[count][3] = rs.getString("privilege");
+                count++;
+            }
+
+
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public int getNumOfMeetings(String userName) {
         try {
@@ -235,7 +283,7 @@ public class DBConnect {
         }
     }
 
-    public int getMaxKey(ResultSet rs) throws SQLException {
+    private int getMaxKey(ResultSet rs) throws SQLException {
         int max = 0;
 
         while (rs.next()){
@@ -246,9 +294,6 @@ public class DBConnect {
         }
         return max;
     }
-
-
-
 
     public void createMeetingWM(String[] toMeet, String self) throws SQLException {
 
@@ -265,8 +310,6 @@ public class DBConnect {
         sc.setMeeting(fullU);
 
     }
-
-
 
     public void createMeeting(Meeting meeting) throws SQLException {
         PreparedStatement query = con.prepareStatement("INSERT INTO meetings (day) VALUES (?)");
@@ -301,43 +344,44 @@ public class DBConnect {
 
     }
 
-
     public void removeUser(String userName) throws SQLException{
-
 
         PreparedStatement query = con.prepareStatement("DELETE FROM privileges WHERE user_name = ?");
         query.setString(1, userName);
         query.executeUpdate();
 
-
         query = con.prepareStatement("DELETE FROM users_meetings WHERE user_name = ?");
         query.setString(1, userName);
         query.executeUpdate();
 
-        refreshMeetings();
-
         query = con.prepareStatement("DELETE FROM profiles WHERE user_name = ?");
         query.setString(1, userName);
         query.executeUpdate();
+
+        refreshMeetings();
     }
 
     private void refreshMeetings() throws SQLException {
         String query = "SELECT * FROM meetings";
         rs = st.executeQuery(query);
-
+        Vector<Integer> vec = new Vector<>();
+        int i=0;
         while(rs.next()){
-            refreshMeeting(rs.getInt("m_key"));
+           vec.add(rs.getInt("m_key"));
+        }
+        for(int key:vec){
+            refreshMeeting(key);
         }
     }
 
     private void refreshMeeting(int m_key) throws SQLException {
         int num = getNumOfMeetingUsers(m_key);
         if(num<2){
-            PreparedStatement query = con.prepareStatement("DELETE FROM meetings WHERE m_key = ?");
+            PreparedStatement query = con.prepareStatement("DELETE FROM users_meetings WHERE m_key = ?");
             query.setInt(1, m_key);
             query.executeUpdate();
 
-            query = con.prepareStatement("DELETE FROM users_meetings WHERE m_key = ?");
+            query = con.prepareStatement("DELETE FROM meetings WHERE m_key = ?");
             query.setInt(1, m_key);
             query.executeUpdate();
         }
@@ -353,15 +397,12 @@ public class DBConnect {
         return count;
     }
 
-
     public void setPrivilege(String userName, String priv) throws SQLException {
         PreparedStatement query = con.prepareStatement("UPDATE privileges SET privilege = ? WHERE user_name = ?");
         query.setString(1, priv);
         query.setString(2, userName);
         query.executeUpdate();
     }
-
-
 
     public String[] getUsersForMeetingWorker(String userName) throws SQLException {
         PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
@@ -383,12 +424,28 @@ public class DBConnect {
         return list;
     }
 
-    public boolean isMeetingValidWorker(String[] list){
+    private boolean isMeetingValidWorker(String[] list){
         int count=0;
         for(String user : list)
             if(getPrivilege(user).equals("manager")) count++;
         return count<2;
     }
 
+    public String[] getUsersForMeetingManager(String curr_userName) throws SQLException {
+            int num = getNumOfUsersMWC()-1, count=0;
+            String[] list = new String[num];
 
+            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
+            query.setString(1,curr_userName);
+            query.setString(2,"admin");
+
+            rs = query.executeQuery();
+
+            while (rs.next()){
+                list[count] = rs.getString("user_name");
+                count++;
+            }
+            return list;
+    }
 }
+

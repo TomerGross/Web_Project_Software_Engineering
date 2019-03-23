@@ -14,9 +14,13 @@ import java.io.IOException;
         try {
             String sessionUserName = (String) request.getSession().getAttribute("userName");
             DBConnect dbConnect = DBConnect.getInstance();
+            if(!dbConnect.getPrivilege(sessionUserName).equals("admin")){
+                response.sendRedirect("LoginPage.html");
+                return;
+            }
             String userName = request.getParameter("userName");
             String op = request.getParameter("operation");
-            String priv;
+            String priv = dbConnect.getPrivilege(userName);
 
             if(userName.equals(sessionUserName)) {
                 response.sendRedirect("AdminOperations.html");
@@ -28,14 +32,12 @@ import java.io.IOException;
                     dbConnect.removeUser(userName);
                     break;
                 case "2":
-                    priv = dbConnect.getPrivilege(userName);
                     if(priv.equals("candidate"))
                         dbConnect.setPrivilege(userName, "worker");
                     else if(priv.equals("worker"))
                         dbConnect.setPrivilege(userName, "manager");
                     break;
                 case "3":
-                    priv = dbConnect.getPrivilege(userName);
                     if(priv.equals("candidate") || priv.equals("worker"))
                         dbConnect.removeUser(userName);
                     else if(priv.equals("manager"))
@@ -44,18 +46,17 @@ import java.io.IOException;
                         dbConnect.setPrivilege(userName, "manager");
                     break;
                 case "4":
-                    request.getSession().setAttribute("details",userName);
-                    response.sendRedirect("AdminUserDetails.jsp");
+                    if(priv!=null){
+                            request.getSession().setAttribute("details",userName);
+                            response.sendRedirect("AdminUserDetails.jsp");
+                        }
                     return;
                 default:
                     break;
             }
-            response.sendRedirect("AdminOperations.html");
         }
-        catch (Exception e){
-            response.sendRedirect("AdminOperations.html");
-
-        }
+        catch (Exception e){}
+        response.sendRedirect("AdminOperations.html");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

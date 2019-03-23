@@ -14,15 +14,18 @@ public class ManagerOperationServlet extends HttpServlet {
         try {
             String sessionUserName = (String) request.getSession().getAttribute("userName");
             DBConnect dbConnect = DBConnect.getInstance();
+            if(!dbConnect.getPrivilege(sessionUserName).equals("manager")){
+                response.sendRedirect("LoginPage.html");
+                return;
+            }
             String userName = request.getParameter("userName");
             String op = request.getParameter("operation");
-            String priv;
+            String priv = dbConnect.getPrivilege(userName);
 
             if(userName.equals(sessionUserName)) {
                 response.sendRedirect("ManagerOperations.html");
                 return;
             }
-            priv = dbConnect.getPrivilege(userName);
             switch (op) {
                 case "1":
                     if(priv.equals("worker") || priv.equals("candidate"))
@@ -33,21 +36,20 @@ public class ManagerOperationServlet extends HttpServlet {
                         dbConnect.setPrivilege(userName, "worker");
                     break;
                 case "3":
-                    request.getSession().setAttribute("details",userName);
-                    response.sendRedirect("ManagerUserDetails.jsp");
-                    return;
+                    if(priv.equals("candidate") || priv.equals("worker") || priv.equals("manager"))
+                        {
+                            request.getSession().setAttribute("details",userName);
+                            response.sendRedirect("ManagerUserDetails.jsp");
+                            return;
+                        }
                 default:
                     break;
             }
         }
         catch (Exception e){
         }
-        finally {
-            response.sendRedirect("AdminOperations.html");
-        }
+        response.sendRedirect("ManagerOperations.html");
     }
-
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }

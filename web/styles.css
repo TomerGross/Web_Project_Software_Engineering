@@ -9,6 +9,14 @@ body{
     font-family: DINL;
     height: 100%;
     margin: 0;
+
+
+    background-image: url(./Extra/back3.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: right;
+    background-size: 1750px 1250px;
+
 }
 
 .myd{
@@ -61,7 +69,7 @@ body{
 
 .logo img{
     height: 190px;
-    width: auto;;
+    width: auto;
 
 }
 
@@ -122,13 +130,18 @@ body{
 
 }
 
-.usertable th{
+table.usertable th{
 
     background: black;
     color: white;
+    padding: 20px 20px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
 }
 
-table.usertable th, tr, td {
+table.usertable tr, td {
+    background: white;
     padding: 20px 20px;
     border-bottom: 1px solid gray;
     border-right: 1px solid gray;

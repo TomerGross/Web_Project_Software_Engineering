@@ -39,12 +39,9 @@
 
 <%
     DBConnect dbConnect = DBConnect.getInstance();
-    list = dbConnect.getData();
-    try {
-        num = dbConnect.getNumOfUsers();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+    String curr = (String) session.getAttribute("userName");
+    list = dbConnect.getDataManager(curr);
+    num=list.length;
 %>
 
 
@@ -55,7 +52,8 @@
 <table class="usertable">
     <tr>
         <th>User Name</th>
-        <th>Password</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Privilege</th>
 
     </tr>
@@ -67,6 +65,7 @@
         <td><%=list[i][0]%></td>
         <td><%=list[i][1]%></td>
         <td><%=list[i][2]%></td>
+        <td><%=list[i][3]%></td>
     </tr>
 
     <%

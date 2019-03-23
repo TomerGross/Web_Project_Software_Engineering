@@ -11,16 +11,14 @@ public class Scheduler {
 
     private static Scheduler single_instance = null;
 
-    public static Scheduler getInstance()
-    {
+    public static Scheduler getInstance() {
         if (single_instance == null)
             single_instance = new Scheduler();
 
         return single_instance;
     }
 
-
-    public boolean free(String userName, Date date)  {
+    boolean free(String userName, Date date)  {
 
         try{
             DBConnect dbConnect = DBConnect.getInstance();
@@ -44,8 +42,6 @@ public class Scheduler {
         catch (SQLException e){}
             return false;
         }
-
-
 
     public void createMeetingWithManager(String userName) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
@@ -79,8 +75,7 @@ public class Scheduler {
 
     }
 
-
-    public Vector<String> toVector(String[] arr){
+    private Vector<String> toVector(String[] arr){
 
         Vector<String> vec = new Vector<>();
         for(String iter: arr){
@@ -89,7 +84,7 @@ public class Scheduler {
         return vec;
     }
 
-    public String[] toArray(Vector<String> vec){
+    private String[] toArray(Vector<String> vec){
 
         String[] arr = new String[vec.size()];
         for(int i=0; i< vec.size(); i++){
@@ -97,9 +92,6 @@ public class Scheduler {
         }
         return arr;
     }
-
-
-
 
     public boolean setMeeting(String[] userNames) throws SQLException {
 
@@ -139,7 +131,7 @@ public class Scheduler {
         return true;
     }
 
-    public Vector<Integer> getMeetingsKeys(String userName) throws SQLException {
+    private Vector<Integer> getMeetingsKeys(String userName) throws SQLException {
         Vector<Integer> list=new Vector<>();
         DBConnect dbConnect = DBConnect.getInstance();
         Connection con = dbConnect.getConnection();
@@ -155,7 +147,6 @@ public class Scheduler {
 
         return list;
     }
-
 
     public Integer getMeetingKeyToday(String userName) throws SQLException {
         Vector<Integer> list = getMeetingsKeys(userName);
