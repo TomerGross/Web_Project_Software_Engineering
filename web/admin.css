@@ -88,6 +88,11 @@ body{
 }
 
 
+.sign_out_btn_2 input{
+    margin-top: 400px;
+    margin-left:40%;
+}
+
 
 input[type=radio] {
     position: absolute;
@@ -126,23 +131,6 @@ input[type=radio]:checked + label{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 form.operations input[type=text] {
     padding: 10px;
     font-size: 20px;
@@ -156,7 +144,6 @@ form.operations input[type=text] {
 
 }
 
-/* Style the submit button */
 form.operations button {
 
     float: left;
@@ -176,7 +163,6 @@ form.operations button:hover {
     background: black;
 }
 
-/* Clear floats */
 form.operations::after {
     content: "";
     clear: both;
@@ -184,6 +170,6 @@ form.operations::after {
 }
 
 
-
-
-
+.managerbtn input{
+    margin-top: 400px;
+}
