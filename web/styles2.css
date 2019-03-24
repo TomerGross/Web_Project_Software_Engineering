@@ -151,7 +151,7 @@ form.operations input[type=text] {
     float: left;
     width: auto;
     background: white;
-    margin-left: 44%;
+    margin-left: 46%;
     margin-top: 120px;
     height: 62px;
 
@@ -185,4 +185,14 @@ form.operations::after {
 
 .managerbtn input{
     margin-top: 400px;
+}
+.error{
+    color: red;
+    font-size: 20px;
+    margin-left: 160px;
+}
+.success{
+    color: green;
+    font-size: 20px;
+    margin-left: 160px;
 }

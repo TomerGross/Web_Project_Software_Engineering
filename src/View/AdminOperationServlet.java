@@ -23,40 +23,52 @@ import java.io.IOException;
             String priv = dbConnect.getPrivilege(userName);
 
             if(userName.equals(sessionUserName)) {
-                response.sendRedirect("AdminOperations.html");
+                response.sendRedirect("AdminOperationsSelfError.html");
+                return;
+            }
+            if(priv==null || priv.equals("admin")) {
+                response.sendRedirect("AdminOperationsNotFound.html");
                 return;
             }
 
             switch (op) {
                 case "1":
                     dbConnect.removeUser(userName);
-                    break;
+                    response.sendRedirect("AdminOperationsSuccess.html");
+                    return;
                 case "2":
                     if(priv.equals("candidate"))
-                        dbConnect.setPrivilege(userName, "worker");
+                    {dbConnect.setPrivilege(userName, "worker");
+                    response.sendRedirect("AdminOperationsSuccess.html");}
+
                     else if(priv.equals("worker"))
-                        dbConnect.setPrivilege(userName, "manager");
-                    break;
+                    {dbConnect.setPrivilege(userName, "manager");
+                    response.sendRedirect("AdminOperationsSuccess.html");}
+
+                    else
+                        response.sendRedirect("AdminOperationsNotFound.html");
+                    return;
                 case "3":
                     if(priv.equals("candidate") || priv.equals("worker"))
+                    {
                         dbConnect.removeUser(userName);
-                    else if(priv.equals("manager"))
-                        dbConnect.setPrivilege(userName, "worker");
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                    }
                     else
-                        dbConnect.setPrivilege(userName, "manager");
-                    break;
+                    {
+                        dbConnect.setPrivilege(userName, "worker");
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                    }
+                    return;
                 case "4":
-                    if(priv!=null){
-                            request.getSession().setAttribute("details",userName);
-                            response.sendRedirect("AdminUserDetails.jsp");
-                        }
+                    request.getSession().setAttribute("details",userName);
+                    response.sendRedirect("AdminUserDetails.jsp");
                     return;
                 default:
-                    break;
+                    return;
             }
         }
         catch (Exception e){}
-        response.sendRedirect("AdminOperations.html");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
