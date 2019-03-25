@@ -1,14 +1,11 @@
 package Controller;
-
 import Model.Meeting;
 import Model.Scheduler;
-
-import java.net.Inet4Address;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
-
 import static java.lang.System.out;
-import static java.lang.Thread.sleep;
 
 public class DBConnect {
 
@@ -43,8 +40,9 @@ public class DBConnect {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "");
             st = con.createStatement();
 
+            backToDefault();
 
-            query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20), first_name VARCHAR(20), last_name VARCHAR(20), id VARCHAR(9), email VARCHAR(40), psw VARCHAR(20), PRIMARY KEY (user_name))";
+            query = "CREATE TABLE IF NOT EXISTS `project_db`. `PROFILES` ( user_name VARCHAR(20) , first_name VARCHAR(20) NOT NULL DEFAULT '', last_name VARCHAR(20) NOT NULL DEFAULT '', id VARCHAR(9) NOT NULL DEFAULT '', email VARCHAR(40) NOT NULL DEFAULT '', psw VARCHAR(20), PRIMARY KEY (user_name))";
             st.executeUpdate(query);
 
             query = "CREATE TABLE IF NOT EXISTS `project_db`. `privileges` ( user_name VARCHAR(20), privilege ENUM('candidate','worker','manager','admin'), FOREIGN KEY fk_un(user_name) REFERENCES profiles(user_name) ON UPDATE CASCADE ON DELETE NO ACTION )";
@@ -74,61 +72,53 @@ public class DBConnect {
     }
 
 
+    public  void backToDefault() throws SQLException {
+
+
+        String query = "DROP TABLE IF EXISTS `privileges`";
+        st.executeUpdate(query);
+        query = "DROP TABLE IF EXISTS `profiles`";
+        st.executeUpdate(query);
+        query = "DROP TABLE IF EXISTS `users_meetings`";
+        st.executeUpdate(query);
+        query = "DROP TABLE IF EXISTS `meetings`";
+        st.executeUpdate(query);
+
+
+    }
     public void createAdmin() throws SQLException {
 
         PreparedStatement pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
         pquery.setString(1, "admin");
         pquery.setString(2, "1234");
-        pquery.executeQuery();
+        pquery.executeUpdate();
 
 
         pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
         pquery.setString(1, "admin");
         pquery.setString(2, "admin");
-        pquery.executeQuery();
+        pquery.executeUpdate();
 
 
     }
+
     public void createManagers() throws SQLException {
 
-        PreparedStatement pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
-        pquery.setString(1, "igor");
-        pquery.setString(2, "1234");
-        pquery.executeQuery();
+        String[] managers = {"igor", "gil", "bar"};
+        PreparedStatement pquery;
 
+        for (String manager: managers){
+            pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
+            pquery.setString(1, manager);
+            pquery.setString(2, "1234");
+            pquery.executeUpdate();
 
-        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
-        pquery.setString(1, "igor");
-        pquery.setString(2, "manager");
-        pquery.executeQuery();
+            pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+            pquery.setString(1, manager);
+            pquery.setString(2, "manager");
+            pquery.executeUpdate();
 
-
-
-        pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
-        pquery.setString(1, "gil");
-        pquery.setString(2, "1234");
-        pquery.executeQuery();
-
-
-        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
-        pquery.setString(1, "gil");
-        pquery.setString(2, "manager");
-        pquery.executeQuery();
-
-
-
-        pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
-        pquery.setString(1, "bar");
-        pquery.setString(2, "1234");
-        pquery.executeQuery();
-
-
-        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
-        pquery.setString(1, "bar");
-        pquery.setString(2, "manager");
-        pquery.executeQuery();
-
-
+        }
 
 
 
@@ -294,7 +284,6 @@ public class DBConnect {
         return count;
     }
 
-
     public String[][] getDataManager(String curr){
         try {
             int count=0;
@@ -358,15 +347,21 @@ public class DBConnect {
     public void createMeetingWM(String[] toMeet, String self) throws SQLException {
 
         Scheduler sc = Scheduler.getInstance();
+        int len;
 
         if(!isMeetingValidWorker(toMeet) && getPrivilege(self).equals("worker")) return;
 
-        String[] fullU = new String[toMeet.length+1];
+        if (toMeet==null)
+            len=0;
+        else
+            len=toMeet.length;
 
-        for (int i=0; i< toMeet.length ; i++){
+        String[] fullU = new String[len+1];
+
+        for (int i=0; i< len ; i++){
             fullU[i] = toMeet[i];
         }
-        fullU[toMeet.length] = self;
+        fullU[len] = self;
         sc.setMeeting(fullU);
 
     }
@@ -486,8 +481,15 @@ public class DBConnect {
 
     private boolean isMeetingValidWorker(String[] list){
         int count=0;
-        for(String user : list)
-            if(getPrivilege(user).equals("manager")) count++;
+
+        int len;
+        if (list==null)
+            len=0;
+        else
+            len=list.length;
+
+        for(int i=0; i< len; i++)
+            if(getPrivilege(list[i]).equals("manager")) count++;
         return count<2;
     }
 
@@ -507,5 +509,82 @@ public class DBConnect {
             }
             return list;
     }
+
+    public String[] getParticipants(int m_key) throws SQLException {
+
+        String[] participants;
+        int len =0;
+        PreparedStatement pquery = con.prepareStatement("SELECT user_name FROM users_meetings WHERE users_meetings.m_key = ?");
+        pquery.setInt(1, m_key);
+        rs = pquery.executeQuery();
+
+        while (rs.next()) len++;
+
+        participants = new String[len];
+
+        rs = pquery.executeQuery();
+
+        len = 0;
+
+        while (rs.next()){
+            participants[len] = rs.getString("user_name");
+            len++;
+        }
+
+        return participants;
+
+    }
+
+    public String getDateOfMeetingInString(int m_k) throws SQLException {
+
+        PreparedStatement pquery = con.prepareStatement("SELECT day FROM meetings WHERE meetings.m_key = ?");
+        pquery.setInt(1, m_k);
+
+        rs = pquery.executeQuery();
+        if(!rs.next()) return "error";
+
+        rs = pquery.executeQuery();
+
+        Date date = null;
+        if(rs.next())
+            date = rs.getDate("day");
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String text = df.format(date);
+
+        return text;
+
+    }
+
+    public int[] getAllMeetings(String userName) throws SQLException {
+
+        int len = 0;
+        int[] m_keys;
+
+        PreparedStatement pquery = con.prepareStatement("SELECT m_key FROM users_meetings WHERE users_meetings.user_name = ?");
+        pquery.setString(1, userName);
+
+        rs = pquery.executeQuery();
+        while (rs.next()) len++;
+
+
+        if (len==0){
+            return null;
+        }
+
+        m_keys = new int[len];
+        rs = pquery.executeQuery();
+
+
+        for (int i=0; i< len ; i++){
+            rs.next();
+            m_keys[i] = rs.getInt("m_key");
+        }
+
+        return m_keys;
+
+    }
+
+
 }
 

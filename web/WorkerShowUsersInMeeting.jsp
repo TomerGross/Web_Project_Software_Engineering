@@ -1,8 +1,8 @@
 <%@ page import="Controller.DBConnect" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,12 +12,10 @@
         <img src="Extra/LOGO.png">
     </div>
     <br>
-
     <div class="mydh">
         <a href="WorkerDetails.jsp">My Details</a>
         <a href="WorkerMeetings.html">My Meetings</a>
         <a href="WorkerCreateMeeting.jsp">Create Meeting</a>
-
     </div>
 
 
@@ -31,37 +29,40 @@
 
 </div>
 
+<div class="title">Meeting participants:</div>
 
-<form action="MeetingServlet" method="post">
 
+
+<form action="ShowUsersInMeetingServlet" method="post">
 
     <div class="myd">
-
         <%
-            DBConnect dbconnectoin = DBConnect.getInstance();
-            String curr_userName = (String) session.getAttribute("userName");
-            String[] users = null;
+            DBConnect dbConnect = DBConnect.getInstance();
+            String curr = (String) session.getAttribute("userName");
+            int m_key = (Integer) session.getAttribute("m_key");
+            String[] participants = null;
+
             try {
-                users = dbconnectoin.getUsersForMeetingWorker(curr_userName);
+                participants = dbConnect.getParticipants(m_key);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            if (users!= null){
-                for (String user: users){ %>
 
+            for(String part: participants){
 
-                <label><input type="checkbox" name="checked" value=<%=user%>><%=user%></label>
-
-        <%      }
+        %>
+        <%=part%> <br>
+        <%
             }
-        %>      <br><input type="submit" value="Create">
 
+
+        %>
     </div>
-
-
-
 </form>
 
+
 </body>
+
+
 </html>

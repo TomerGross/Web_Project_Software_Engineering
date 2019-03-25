@@ -49,8 +49,8 @@ import java.io.IOException;
                     if(priv!=null){
                             request.getSession().setAttribute("details",userName);
                             response.sendRedirect("AdminUserDetails.jsp");
-                        }
-                    return;
+                    }
+                    break;
                 default:
                     break;
             }

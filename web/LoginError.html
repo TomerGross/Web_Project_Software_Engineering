@@ -1,14 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login Error</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+    <meta charset="utf-8">
+    <title></title>
+
 </head>
+
+
 <body>
-Wrong Username or Password!</br>
-Please try again.
-<form action = "LoginPage.html">
-    <input type="submit" value="Return" />
+
+<div class="sidebar">
+    <div class="logo">
+        <img src="./Extra/LOGO.png">
+    </div>
+    <br>
+    <a href="LoginPage.html">Log In</a>
+    <a href="RegisterPage.html">Sign Up</a>
+</div>
+
+
+<div class="title">
+    Welcome to our site
+</div>
+
+
+<form action="LoginServlet" method="post">
+
+    <div class="loginbox">
+        <br>
+
+        <div class="inputWithIcon">
+            <input type="text" name="userName" placeholder="User name">
+            <i class="far fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="inputWithIcon">
+            <input type="password" name="psw" placeholder="Password">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+        </div>
+
+
+        <div class="title" style="font-size: 20px; color: red; margin-left: 23%;">wrong user name or password</div>
+
+        <div class="button">
+            <input type="submit" value="Log In">
+        </div>
+
+
+    </div>
+
+
 </form>
+
+
 </body>
+
 </html>
