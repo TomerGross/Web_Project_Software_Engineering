@@ -56,7 +56,8 @@ public class DBConnect {
             query = "CREATE TABLE IF NOT EXISTS `project_db`.`users_meetings` ( `m_key` INT(5) NOT NULL , `user_name` VARCHAR(9) NOT NULL, FOREIGN KEY (m_key) REFERENCES meetings(m_key))";
             st.executeUpdate(query);
 
-
+            createAdmin();
+            createManagers();
 
             out.println("con: " + con);
 
@@ -70,11 +71,70 @@ public class DBConnect {
             e.printStackTrace();
         }
 
+    }
+
+
+    public void createAdmin() throws SQLException {
+
+        PreparedStatement pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
+        pquery.setString(1, "admin");
+        pquery.setString(2, "1234");
+        pquery.executeQuery();
+
+
+        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+        pquery.setString(1, "admin");
+        pquery.setString(2, "admin");
+        pquery.executeQuery();
+
+
+    }
+    public void createManagers() throws SQLException {
+
+        PreparedStatement pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
+        pquery.setString(1, "igor");
+        pquery.setString(2, "1234");
+        pquery.executeQuery();
+
+
+        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+        pquery.setString(1, "igor");
+        pquery.setString(2, "manager");
+        pquery.executeQuery();
+
+
+
+        pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
+        pquery.setString(1, "gil");
+        pquery.setString(2, "1234");
+        pquery.executeQuery();
+
+
+        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+        pquery.setString(1, "gil");
+        pquery.setString(2, "manager");
+        pquery.executeQuery();
+
+
+
+        pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
+        pquery.setString(1, "bar");
+        pquery.setString(2, "1234");
+        pquery.executeQuery();
+
+
+        pquery = con.prepareStatement("INSERT INTO privileges (user_name, privilege) VALUES (?, ?)");
+        pquery.setString(1, "bar");
+        pquery.setString(2, "manager");
+        pquery.executeQuery();
+
+
+
+
 
     }
 
     public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String priv){
-
 
         try {
             PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, psw) VALUES (?, ?, ?, ?, ?, ?)");
