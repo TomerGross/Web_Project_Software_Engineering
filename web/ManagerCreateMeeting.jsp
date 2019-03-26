@@ -14,7 +14,7 @@
     <br>
     <div class="mydh">
         <a href="ManagerDetails.jsp">My Details</a>
-        <a href="ManagerMeetings.html">My Meetings</a>
+        <a href="ManagerMeetings.jsp">My Meetings</a>
         <a href="ManagerCreateMeeting.jsp">Create Meeting</a>
         <a href="ManagerShowUsers.jsp">Active Users</a>
         <a href="ManagerOperations.html">Operations</a>
@@ -52,11 +52,10 @@
                 for (String user: users){ %>
 
 
-        <input type="checkbox" name="checked" value=<%=user%>><%=user%><br>
-
+                    <label><input type="checkbox" name="checked" value=<%=user%>><%=user%></label>
         <%      }
         }
-        %>      <input type="submit" value="Create">
+        %>      <br><input type="submit" value="Create">
 
     </div>
 

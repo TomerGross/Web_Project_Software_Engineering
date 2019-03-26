@@ -83,7 +83,15 @@
 
 
 
+    <servlet>
+        <servlet-name>ShowUsersInMeetingServlet</servlet-name>
+        <servlet-class>View.ShowUsersInMeetingServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ShowUsersInMeetingServlet</servlet-name>
+        <url-pattern>/ShowUsersInMeetingServlet</url-pattern>
+    </servlet-mapping>
 
 
     <welcome-file-list>
