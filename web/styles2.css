@@ -35,25 +35,26 @@ body{
 }
 
 .myd_msg.error{
-    height: 10%;
+
+    color: red;
+    height: auto;
     width: 40%;
     font-size: 20px;
     z-index: 1;
     position: fixed;
-    top: 22%;
+    top: 20%;
     left: 46%;
-    color: red;
 }
 
 .myd_msg.success{
 
     color: green;
-    height: 10%;
+    height: auto;
     width: 40%;
     font-size: 20px;
     z-index: 1;
     position: fixed;
-    top: 22%;
+    top: 20%;
     left: 46%;
 }
 

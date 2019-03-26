@@ -238,7 +238,7 @@ input:focus {
 .loginbox .inputWithIcon i {
     position: absolute;
     font-size: 25px;
-    left: 192px;
+    left: 172px;
     top: 42px;
     padding: 9px 8px;
     color: #aaa;
@@ -248,7 +248,7 @@ input:focus {
 .registerbox .inputWithIcon i{
     position: absolute;
     font-size: 25px;
-    left: 192px;
+    left: 172px;
     top: 13px;
     padding: 9px 8px;
     color: #aaa;
