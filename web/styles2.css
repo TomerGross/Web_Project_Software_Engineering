@@ -34,6 +34,30 @@ body{
 
 }
 
+.myd_msg.error{
+    height: 10%;
+    width: 40%;
+    font-size: 20px;
+    z-index: 1;
+    position: fixed;
+    top: 22%;
+    left: 46%;
+    color: red;
+
+}
+
+.myd_msg.success{
+
+    color: green;
+    height: 10%;
+    width: 40%;
+    font-size: 20px;
+    z-index: 1;
+    position: fixed;
+    top: 22%;
+    left: 46%;
+}
+
 .sidebar{
 
 
@@ -198,14 +222,4 @@ form.operations::after {
 
 .managerbtn input{
     margin-top: 400px;
-}
-.error{
-    color: red;
-    font-size: 20px;
-    margin-left: 160px;
-}
-.success{
-    color: green;
-    font-size: 20px;
-    margin-left: 160px;
 }

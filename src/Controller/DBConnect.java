@@ -124,6 +124,15 @@ public class DBConnect {
 
     }
 
+
+    public boolean userInDb(String userName) throws SQLException {
+        PreparedStatement pquery = con.prepareStatement("SELECT * FROM profiles WHERE profiles.user_name= ?");
+        pquery.setString(1, userName);
+        rs = pquery.executeQuery();
+        return rs.next();
+
+    }
+
     public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String priv){
 
         try {

@@ -19,36 +19,70 @@ import java.io.IOException;
                 return;
             }
             String userName = request.getParameter("userName");
+            if(!dbConnect.userInDb(userName)) {
+                response.sendRedirect("AdminOperationsUserNotFound.html");
+                return;
+            }
+
+
             String op = request.getParameter("operation");
             String priv = dbConnect.getPrivilege(userName);
 
+
+
             if(userName.equals(sessionUserName)) {
-                response.sendRedirect("AdminOperations.html");
+                response.sendRedirect("AdminOperationsSelfError.html");
                 return;
             }
+
+
+
+            if(priv.equals("admin")){
+                response.sendRedirect("AdminOperationsUnauthorized.html");
+                return;
+            }
+
 
             switch (op) {
                 case "1":
                     dbConnect.removeUser(userName);
-                    break;
+                    response.sendRedirect("AdminOperationsSuccess.html");
+                    return;
+
                 case "2":
-                    if(priv.equals("candidate"))
+                    if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
-                    else if(priv.equals("worker"))
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                        return;
+                    }
+                    else if(priv.equals("worker")) {
                         dbConnect.setPrivilege(userName, "manager");
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                        return;
+                    }
                     break;
                 case "3":
-                    if(priv.equals("candidate") || priv.equals("worker"))
+                    if(priv.equals("candidate") || priv.equals("worker")) {
                         dbConnect.removeUser(userName);
-                    else if(priv.equals("manager"))
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                        return;
+                    }
+                    else if(priv.equals("manager")) {
                         dbConnect.setPrivilege(userName, "worker");
-                    else
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                        return;
+                    }
+                    else {
                         dbConnect.setPrivilege(userName, "manager");
-                    break;
+                        response.sendRedirect("AdminOperationsSuccess.html");
+                        return;
+                    }
+
                 case "4":
                     if(priv!=null){
                             request.getSession().setAttribute("details",userName);
                             response.sendRedirect("AdminUserDetails.jsp");
+                            return;
                     }
                     break;
                 default:
