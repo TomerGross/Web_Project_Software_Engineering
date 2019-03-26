@@ -32,6 +32,11 @@ body{
 }
 
 
+.myd.fix{
+    width: 50%;
+}
+
+
 .myd_msg.error{
     height: 10%;
     width: 40%;
@@ -222,6 +227,9 @@ input[type="checkbox"]{
     margin-left: 32%;
 }
 
+
+
+
 input:focus {
     border-color: black;
     box-shadow: 0 0 8px 0 black;
@@ -239,7 +247,7 @@ input:focus {
     position: absolute;
     font-size: 25px;
     left: 172px;
-    top: 42px;
+    top: 43px;
     padding: 9px 8px;
     color: #aaa;
     transition: 0.3s;
@@ -249,7 +257,7 @@ input:focus {
     position: absolute;
     font-size: 25px;
     left: 172px;
-    top: 13px;
+    top: 14px;
     padding: 9px 8px;
     color: #aaa;
     transition: 0.3s;
@@ -294,6 +302,9 @@ input[type=radio]:checked + label{
 }
 
 
+.radio-group.fix{
+    margin-left: 47%;
+}
 .managerbtn input{
     margin-top: 400px;
 }

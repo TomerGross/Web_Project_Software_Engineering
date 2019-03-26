@@ -34,6 +34,12 @@ body{
 
 }
 
+
+.myd.fix{
+    width: 50%;
+}
+
+
 .myd_msg.error{
 
     color: red;
@@ -190,7 +196,9 @@ input[type=radio]:checked + label{
 }
 
 
-
+.radio-group.fix{
+    margin-left: 47%;
+}
 
 
 

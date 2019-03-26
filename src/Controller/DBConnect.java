@@ -133,6 +133,20 @@ public class DBConnect {
 
     }
 
+
+
+    public void userIsNotArriving(String userName, int toCancel) throws SQLException {
+
+        PreparedStatement query = con.prepareStatement("DELETE FROM users_meetings WHERE users_meetings.user_name = ? AND users_meetings.m_key = ?");
+        query.setString(1, userName);
+        query.setInt(2, toCancel);
+        query.executeUpdate();
+
+        refreshMeetings();
+
+    }
+
+
     public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String priv){
 
         try {

@@ -34,7 +34,7 @@
 
 <form action="ShowUsersInMeetingServlet" method="post">
 
-    <div class="myd">
+    <div class="myd fix">
         <%
             DBConnect dbConnect = DBConnect.getInstance();
             String curr = (String) session.getAttribute("userName");

@@ -39,10 +39,10 @@
 <div class="title">Your Meetings</div>
 
 
-
+<br>
 <form action="ShowUsersInMeetingServlet" method="post">
 
-    <div class="myd">
+    <div class="myd fix">
         <%
             DBConnect dbConnect = DBConnect.getInstance();
             String curr = (String) session.getAttribute("userName");
@@ -70,7 +70,8 @@
                     e.printStackTrace();
                 }
             %>
-            meeting sn: <%=m_keys[i]%>, date: <%=temp%> <button  type="submit" name ="m_key" value=<%=m_keys[i]%>>details...</button> <br>
+            meeting sn: <%=m_keys[i]%>, date: <%=temp%> <button  type="submit" name ="m_key" value=<%=m_keys[i]%>>details...</button>
+            <button  type="submit" name ="cancel_mkey" value=<%=m_keys[i]%>>cancel</button><br><br>
 
             <%
 
