@@ -19,7 +19,12 @@ public class ShowUsersInMeetingServlet extends HttpServlet {
 
         String curr_userName = (String) session.getAttribute("userName");
         String priv = dbConnect.getPrivilege(curr_userName);
+
+
+        //if you pressed the cancel button its save the sn number of the meeting you want to cancel
         String cancel_mkey = request.getParameter("cancel_mkey");
+
+
         int m_key = 0, toCancel;
 
 
@@ -27,6 +32,7 @@ public class ShowUsersInMeetingServlet extends HttpServlet {
         if(cancel_mkey != null) {
             toCancel = Integer.parseInt(cancel_mkey);
             try {
+                //in case you pressed on cancel and not on details
                 dbConnect.userIsNotArriving(curr_userName, toCancel);
 
 
@@ -41,6 +47,7 @@ public class ShowUsersInMeetingServlet extends HttpServlet {
             }
 
         } else{
+            //in case you pressed on the details button
             m_key = Integer.parseInt(request.getParameter("m_key"));
         }
 
@@ -49,6 +56,7 @@ public class ShowUsersInMeetingServlet extends HttpServlet {
         String curr_priv = dbConnect.getPrivilege(curr_userName);
 
         switch (curr_priv) {
+            //send redirect by privilege
             case "admin":
                 response.sendRedirect("AdminShowUsersInMeeting.jsp");
                 break;

@@ -28,6 +28,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
             switch (priv){
 
+                //send redirect to the match welcome page
                 case "candidate":
                     response.sendRedirect("CandidateMain.html");
                     break;
@@ -54,10 +55,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
         } else {
             response.sendRedirect("LoginError.html");
-
         }
-
-
 
         out.close();
     }

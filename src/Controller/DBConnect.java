@@ -88,6 +88,7 @@ public class DBConnect {
     }
     public void createAdmin() throws SQLException {
 
+        //create a default administrator
         PreparedStatement pquery = con.prepareStatement("INSERT INTO profiles (user_name, psw) VALUES (?, ?)");
         pquery.setString(1, "admin");
         pquery.setString(2, "1234");
@@ -103,6 +104,8 @@ public class DBConnect {
     }
 
     public void createManagers() throws SQLException {
+
+        //create a default managers
 
         String[] managers = {"igor", "gil", "bar"};
         PreparedStatement pquery;
@@ -124,8 +127,9 @@ public class DBConnect {
 
     }
 
-
     public boolean userInDb(String userName) throws SQLException {
+
+        //return if user is exists
         PreparedStatement pquery = con.prepareStatement("SELECT * FROM profiles WHERE profiles.user_name= ?");
         pquery.setString(1, userName);
         rs = pquery.executeQuery();
@@ -133,10 +137,9 @@ public class DBConnect {
 
     }
 
-
-
     public void userIsNotArriving(String userName, int toCancel) throws SQLException {
 
+        //in case that user canceled meeting
         PreparedStatement query = con.prepareStatement("DELETE FROM users_meetings WHERE users_meetings.user_name = ? AND users_meetings.m_key = ?");
         query.setString(1, userName);
         query.setInt(2, toCancel);
@@ -146,9 +149,9 @@ public class DBConnect {
 
     }
 
-
     public void registerUser(String userName, String firstName, String lastName, String id, String email, String psw, String priv){
 
+        //register user in db
         try {
             PreparedStatement query = con.prepareStatement("INSERT INTO profiles (user_name, first_name, last_name, id, email, psw) VALUES (?, ?, ?, ?, ?, ?)");
             query.setString(1, userName);
@@ -180,7 +183,7 @@ public class DBConnect {
 
     public boolean loginUser(String userName, String password){
 
-
+        //return if user is already sign up, if he is he can enter with his details
         try {
             PreparedStatement query = con.prepareStatement("SELECT * FROM profiles WHERE user_name = ? AND psw = ?");
             query.setString(1, userName);
@@ -198,6 +201,8 @@ public class DBConnect {
     }
 
     public String getPrivilege(String userName){
+
+        //return the user privilege
         try {
             PreparedStatement query = con.prepareStatement("SELECT * FROM privileges WHERE user_name = ?");
             query.setString(1, userName);
@@ -214,6 +219,7 @@ public class DBConnect {
 
     public String[] getDetails(String user_name){
 
+        //extract the user details from db
         String[] details = new String[7];
 
 
@@ -245,23 +251,12 @@ public class DBConnect {
 
     }
 
-    public int getNumOfUsers() throws SQLException {
-
-        String query = "SELECT * FROM profiles";
-        int count=0;
-        rs = st.executeQuery(query);
-
-        while (rs.next()) count++;
-        return count;
-    }
-
     public String[][] getDataAdmin(String curr){
+
+        //return a list of details about all the users in the system
         try {
 
-
             int count=0;
-
-
 
             PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name AND profiles.user_name != ?");
             query.setString(1, curr);
@@ -284,10 +279,7 @@ public class DBConnect {
                 count++;
             }
 
-
-
             return list;
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -298,6 +290,8 @@ public class DBConnect {
     }
 
     public int getNumOfUsersMWC() throws SQLException {
+
+        //return the num of users in the system that they are not admins
         int count=0;
         PreparedStatement query =con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name = privileges.user_name AND privileges.privilege != ?");
         query.setString(1,"admin");
@@ -308,6 +302,10 @@ public class DBConnect {
     }
 
     public String[][] getDataManager(String curr){
+
+        //return a list of details about all the users in the system without password because its a manager
+        //and a manager shouldn't see other manager's passwords
+
         try {
             int count=0;
 
@@ -342,6 +340,9 @@ public class DBConnect {
     }
 
     public int getNumOfMeetings(String userName) {
+
+        //return num of meetings of given user
+
         try {
             PreparedStatement query = con.prepareStatement("SELECT * FROM users_meetings WHERE user_name = ?");
             query.setString(1, userName);
@@ -356,6 +357,9 @@ public class DBConnect {
     }
 
     private int getMaxKey(ResultSet rs) throws SQLException {
+
+        //return the sn of the last meeting that created
+
         int max = 0;
 
         while (rs.next()){
@@ -368,6 +372,8 @@ public class DBConnect {
     }
 
     public boolean createMeetingWM(String[] toMeet, String self) throws SQLException {
+
+        //create meeting between user and a list of users
 
         Scheduler sc = Scheduler.getInstance();
         int len;
@@ -391,6 +397,9 @@ public class DBConnect {
     }
 
     public void createMeeting(Meeting meeting) throws SQLException {
+
+        //actually execute the query for set the meeting in db
+
         PreparedStatement query = con.prepareStatement("INSERT INTO meetings (day) VALUES (?)");
         java.text.SimpleDateFormat sdf =
                 new java.text.SimpleDateFormat("yyyy-MM-dd 00:00:00");
@@ -425,6 +434,7 @@ public class DBConnect {
 
     public void removeUser(String userName) throws SQLException{
 
+        //remove user from db in case he was fired
         PreparedStatement query = con.prepareStatement("DELETE FROM privileges WHERE user_name = ?");
         query.setString(1, userName);
         query.executeUpdate();
@@ -441,6 +451,9 @@ public class DBConnect {
     }
 
     private void refreshMeetings() throws SQLException {
+
+        //check validation of all the meetings in the system
+
         String query = "SELECT * FROM meetings";
         rs = st.executeQuery(query);
         Vector<Integer> vec = new Vector<>();
@@ -454,6 +467,9 @@ public class DBConnect {
     }
 
     private void refreshMeeting(int m_key) throws SQLException {
+
+        //check validation of given meeting
+
         int num = getNumOfMeetingUsers(m_key);
         if(num<2){
             PreparedStatement query = con.prepareStatement("DELETE FROM users_meetings WHERE m_key = ?");
@@ -468,6 +484,8 @@ public class DBConnect {
 
     private int getNumOfMeetingUsers(int m_key) throws SQLException {
 
+        //get a meeting sn, return the number of participants
+
         PreparedStatement query = con.prepareStatement("SELECT * FROM users_meetings WHERE m_key = ?");
         query.setInt(1, m_key);
         rs = query.executeQuery();
@@ -477,6 +495,9 @@ public class DBConnect {
     }
 
     public void setPrivilege(String userName, String priv) throws SQLException {
+
+        //change privilege of user to other given privilege
+
         PreparedStatement query = con.prepareStatement("UPDATE privileges SET privilege = ? WHERE user_name = ?");
         query.setString(1, priv);
         query.setString(2, userName);
@@ -484,6 +505,9 @@ public class DBConnect {
     }
 
     public String[] getUsersForMeetingWorker(String userName) throws SQLException {
+
+        //return all the users a worker can meet
+
         PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
         query.setString(1, userName);
         query.setString(2, "admin");
@@ -504,6 +528,9 @@ public class DBConnect {
     }
 
     private boolean isMeetingValidWorker(String[] list){
+
+        //limit worker to create a meeting with one manager
+
         int count=0;
 
         int len;
@@ -518,23 +545,28 @@ public class DBConnect {
     }
 
     public String[] getUsersForMeetingManager(String curr_userName) throws SQLException {
-            int num = getNumOfUsersMWC()-1, count=0;
-            String[] list = new String[num];
 
-            PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
-            query.setString(1,curr_userName);
-            query.setString(2,"admin");
+        //return list of users a manager can meet
 
-            rs = query.executeQuery();
+        int num = getNumOfUsersMWC()-1, count=0;
+        String[] list = new String[num];
 
-            while (rs.next()){
-                list[count] = rs.getString("user_name");
-                count++;
-            }
-            return list;
+        PreparedStatement query = con.prepareStatement("SELECT * FROM profiles,privileges WHERE profiles.user_name != ? AND privileges.privilege != ? AND profiles.user_name = privileges.user_name" );
+        query.setString(1,curr_userName);
+        query.setString(2,"admin");
+
+        rs = query.executeQuery();
+
+        while (rs.next()){
+            list[count] = rs.getString("user_name");
+            count++;
+        }
+        return list;
     }
 
     public String[] getParticipants(int m_key) throws SQLException {
+
+        //return a list of the participants of a given meeting
 
         String[] participants;
         int len =0;
@@ -561,6 +593,8 @@ public class DBConnect {
 
     public String getDateOfMeetingInString(int m_k) throws SQLException {
 
+        //return the date of the given meeting take place
+
         PreparedStatement pquery = con.prepareStatement("SELECT day FROM meetings WHERE meetings.m_key = ?");
         pquery.setInt(1, m_k);
 
@@ -581,6 +615,8 @@ public class DBConnect {
     }
 
     public int[] getAllMeetings(String userName) throws SQLException {
+
+        //return all meetings of given user
 
         int len = 0;
         int[] m_keys;

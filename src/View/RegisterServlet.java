@@ -29,11 +29,13 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
                 return;
             }
 
+            //register user in db
             dbconnection.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
 
             Scheduler sc = Scheduler.getInstance();
-            sc.createMeetingWithManager(userName);
 
+            //automatically creating first interview with manager
+            sc.createMeetingWithManager(userName);
 
 
             response.sendRedirect("LoginPage.html");

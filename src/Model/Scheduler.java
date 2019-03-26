@@ -12,6 +12,7 @@ public class Scheduler {
     private static Scheduler single_instance = null;
 
     public static Scheduler getInstance() {
+        //singleton
         if (single_instance == null)
             single_instance = new Scheduler();
 
@@ -20,6 +21,7 @@ public class Scheduler {
 
     boolean free(String userName, Date date)  {
 
+        //return if user is free to meet on the given date
         try{
             DBConnect dbConnect = DBConnect.getInstance();
 
@@ -44,6 +46,9 @@ public class Scheduler {
         }
 
     public void createMeetingWithManager(String userName) throws SQLException {
+
+        //set meeting automatically with the manager that have the less meetings (in closest date he is free)
+
         DBConnect dbConnect = DBConnect.getInstance();
         String query = "SELECT user_name FROM `privileges` WHERE privilege = \"manager\"";
         Connection con = dbConnect.getConnection();
@@ -95,6 +100,8 @@ public class Scheduler {
 
     public boolean setMeeting(String[] userNames) throws SQLException {
 
+        //calculate the date of the meeting that all the users are free to meet, set the meeting
+
         Vector<String> temp;
         Date date = Calendar.getInstance().getTime();
 
@@ -128,45 +135,5 @@ public class Scheduler {
         DBConnect dbConnection =DBConnect.getInstance();
         dbConnection.createMeeting(meeting);
         return true;
-    }
-
-    private Vector<Integer> getMeetingsKeys(String userName) throws SQLException {
-        Vector<Integer> list=new Vector<>();
-        DBConnect dbConnect = DBConnect.getInstance();
-        Connection con = dbConnect.getConnection();
-
-        String query = "SELECT * FROM `users_meetings` WHERE users_meetings.user_name = ?";
-
-        PreparedStatement p_query = con.prepareStatement(query);
-        p_query.setString(1,userName);
-
-        ResultSet rs = p_query.executeQuery();
-
-        while(rs.next()) list.add(rs.getInt("m_key"));
-
-        return list;
-    }
-
-    public Integer getMeetingKeyToday(String userName) throws SQLException {
-        Vector<Integer> list = getMeetingsKeys(userName);
-        DBConnect dbConnect = DBConnect.getInstance();
-        Connection con = dbConnect.getConnection();
-        String currentTime,query;
-        ResultSet rs;
-        java.text.SimpleDateFormat sdf =
-                new java.text.SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        for(Integer iter : list)
-        {
-            query = "SELECT * FROM `meetings` WHERE meetings.day = ? AND meetings.m_key = ?";
-            PreparedStatement p_query = con.prepareStatement(query);
-            currentTime = sdf.format(new Date());
-            p_query.setString(1,currentTime);
-            p_query.setInt(2,iter);
-            rs = p_query.executeQuery();
-            if(rs.next()) {
-                return iter;
-            }
-        }
-        return -1;
     }
 }

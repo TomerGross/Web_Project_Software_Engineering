@@ -14,7 +14,10 @@ import java.io.IOException;
         try {
             String sessionUserName = (String) request.getSession().getAttribute("userName");
             DBConnect dbConnect = DBConnect.getInstance();
+
+
             if(!dbConnect.getPrivilege(sessionUserName).equals("admin")){
+                //security, check if he is legit admin or just played with the pages
                 response.sendRedirect("LoginPage.html");
                 return;
             }
@@ -31,13 +34,13 @@ import java.io.IOException;
 
 
             if(userName.equals(sessionUserName)) {
+                //block the option to use self operations
                 response.sendRedirect("AdminOperationsSelfError.html");
                 return;
             }
 
-
-
             if(priv.equals("admin")){
+                //admin is untouchable
                 response.sendRedirect("AdminOperationsUnauthorized.html");
                 return;
             }
@@ -45,11 +48,13 @@ import java.io.IOException;
 
             switch (op) {
                 case "1":
+                    //fire user
                     dbConnect.removeUser(userName);
                     response.sendRedirect("AdminOperationsSuccess.html");
                     return;
 
                 case "2":
+                    //promote user
                     if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
                         response.sendRedirect("AdminOperationsSuccess.html");
@@ -62,6 +67,7 @@ import java.io.IOException;
                     }
                     break;
                 case "3":
+                    //demote user
                     if(priv.equals("candidate") || priv.equals("worker")) {
                         dbConnect.removeUser(userName);
                         response.sendRedirect("AdminOperationsSuccess.html");
@@ -79,6 +85,7 @@ import java.io.IOException;
                     }
 
                 case "4":
+                    //show user details
                     if(priv!=null){
                             request.getSession().setAttribute("details",userName);
                             response.sendRedirect("AdminUserDetails.jsp");

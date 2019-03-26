@@ -22,6 +22,7 @@ public class MeetingServlet extends HttpServlet {
         boolean valid;
 
         if (toMeet == null && priv.equals("worker")){
+            //user can't meet himself
             response.sendRedirect("WorkerCreateMeetingError.jsp");
             return;
         } else if(toMeet == null && priv.equals("manager")){
@@ -32,9 +33,11 @@ public class MeetingServlet extends HttpServlet {
         try {
             valid = dbConnect.createMeetingWM(toMeet, us );
             if(!valid && priv.equals("worker")){
+                //if there is more than one manager he want to meet it's illegal
                 response.sendRedirect("WorkerCreateMeetingError.jsp");
                 return;
             } else if (!valid && priv.equals("manager")){
+                //in case of error for some reason
                 response.sendRedirect("ManagerCreateMeetingError.jsp");
                 return;
             }
@@ -44,6 +47,7 @@ public class MeetingServlet extends HttpServlet {
         }
 
         if (priv.equals("worker"))
+            //alert on success
             response.sendRedirect("WorkerCreateMeetingSuccess.jsp");
         else
             response.sendRedirect("ManagerCreateMeetingSuccess.jsp");

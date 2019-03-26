@@ -15,6 +15,7 @@ public class ManagerOperationServlet extends HttpServlet {
             String sessionUserName = (String) request.getSession().getAttribute("userName");
             DBConnect dbConnect = DBConnect.getInstance();
             if(!dbConnect.getPrivilege(sessionUserName).equals("manager")){
+                //security, check if he is legit manager or just played with the pages
                 response.sendRedirect("LoginPage.html");
                 return;
             }
@@ -31,12 +32,14 @@ public class ManagerOperationServlet extends HttpServlet {
             }
 
             if(userName.equals(sessionUserName)) {
+                //block the option to use self operations
                 response.sendRedirect("ManagerOperationsSelfError.html");
                 return;
             }
 
 
             if(priv.equals("admin")){
+                //unauthorized operation on admin/manager(the only option is to show user data)
                 response.sendRedirect("ManagerOperationsUnauthorized.html");
                 return;
             } else if(priv.equals("manager") && !op.equals("3")){
@@ -48,6 +51,7 @@ public class ManagerOperationServlet extends HttpServlet {
 
             switch (op) {
                 case "1":
+                    //fire user
                     if(priv.equals("worker") || priv.equals("candidate")) {
                         dbConnect.removeUser(userName);
                         response.sendRedirect("ManagerOperationsSuccess.html");
@@ -56,6 +60,7 @@ public class ManagerOperationServlet extends HttpServlet {
                     break;
 
                 case "2":
+                    //hire someone to job
                     if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
                         response.sendRedirect("ManagerOperationsSuccess.html");
@@ -63,7 +68,7 @@ public class ManagerOperationServlet extends HttpServlet {
                     }
                     break;
                 case "3":
-
+                    //show user details
                     request.getSession().setAttribute("details",userName);
                     response.sendRedirect("ManagerUserDetails.jsp");
                     return;
