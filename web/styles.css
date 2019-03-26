@@ -31,6 +31,45 @@ body{
 
 }
 
+
+.myd_msg.error{
+    height: 10%;
+    width: 40%;
+    font-size: 20px;
+    z-index: 1;
+    position: fixed;
+    top: 22%;
+    left: 46%;
+    color: red;
+
+}
+
+.myd_msg.success{
+
+    color: green;
+    height: 10%;
+    width: 40%;
+    font-size: 20px;
+    z-index: 1;
+    position: fixed;
+    top: 22%;
+    left: 46%;
+}
+
+
+
+.myd_msg.success.fix{
+    top: 10%;
+    left: 47.5%;
+}
+.myd_msg.error.fix{
+    top: 10%;
+    left: 47.5%;
+
+}
+
+
+
 .sidebar{
 
     background-color: white;

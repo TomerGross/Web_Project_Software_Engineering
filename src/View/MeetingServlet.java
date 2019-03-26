@@ -18,18 +18,35 @@ public class MeetingServlet extends HttpServlet {
 
         String[] toMeet = request.getParameterValues("checked");
         String us = (String) request.getSession().getAttribute("userName");
+        String priv = dbConnect.getPrivilege(us);
+        boolean valid;
+
+        if (toMeet == null && priv.equals("worker")){
+            response.sendRedirect("WorkerCreateMeetingError.jsp");
+            return;
+        } else if(toMeet == null && priv.equals("manager")){
+            response.sendRedirect("ManagerCreateMeetingError.jsp");
+            return;
+        }
 
         try {
-            dbConnect.createMeetingWM(toMeet, us );
+            valid = dbConnect.createMeetingWM(toMeet, us );
+            if(!valid && priv.equals("worker")){
+                response.sendRedirect("WorkerCreateMeetingError.jsp");
+                return;
+            } else if (!valid && priv.equals("manager")){
+                response.sendRedirect("ManagerCreateMeetingError.jsp");
+                return;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (dbConnect.getPrivilege(us).equals("worker"))
-            response.sendRedirect("WorkerCreateMeeting.jsp");
+        if (priv.equals("worker"))
+            response.sendRedirect("WorkerCreateMeetingSuccess.jsp");
         else
-            response.sendRedirect("ManagerCreateMeeting.jsp");
+            response.sendRedirect("ManagerCreateMeetingSuccess.jsp");
 
     }
 

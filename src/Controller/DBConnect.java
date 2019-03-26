@@ -353,12 +353,12 @@ public class DBConnect {
         return max;
     }
 
-    public void createMeetingWM(String[] toMeet, String self) throws SQLException {
+    public boolean createMeetingWM(String[] toMeet, String self) throws SQLException {
 
         Scheduler sc = Scheduler.getInstance();
         int len;
 
-        if(!isMeetingValidWorker(toMeet) && getPrivilege(self).equals("worker")) return;
+        if(isMeetingValidWorker(toMeet) && getPrivilege(self).equals("worker")) return false;
 
         if (toMeet==null)
             len=0;
@@ -372,6 +372,7 @@ public class DBConnect {
         }
         fullU[len] = self;
         sc.setMeeting(fullU);
+        return true;
 
     }
 
@@ -499,7 +500,7 @@ public class DBConnect {
 
         for(int i=0; i< len; i++)
             if(getPrivilege(list[i]).equals("manager")) count++;
-        return count<2;
+        return !(count<2);
     }
 
     public String[] getUsersForMeetingManager(String curr_userName) throws SQLException {

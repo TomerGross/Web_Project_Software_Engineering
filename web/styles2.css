@@ -58,6 +58,20 @@ body{
     left: 46%;
 }
 
+
+.myd_msg.success.fix{
+    top: 10%;
+    left: 47.5%;
+}
+.myd_msg.error.fix{
+    top: 10%;
+    left: 47.5%;
+
+}
+
+
+
+
 .sidebar{
 
 

@@ -22,19 +22,38 @@ public class ManagerOperationServlet extends HttpServlet {
             String op = request.getParameter("operation");
             String priv = dbConnect.getPrivilege(userName);
 
-            if(userName.equals(sessionUserName)) {
-                response.sendRedirect("ManagerOperations.html");
+
+            if(!dbConnect.userInDb(userName)) {
+                response.sendRedirect("ManagerOperationsUserNotFound.html");
                 return;
             }
+
+            if(userName.equals(sessionUserName)) {
+                response.sendRedirect("ManagerOperationsSelfError.html");
+                return;
+            }
+
+
+            if(priv.equals("admin")){
+                response.sendRedirect("ManagerOperationsUnauthorized.html");
+                return;
+            }
+
+
             switch (op) {
                 case "1":
-                    if(priv.equals("worker") || priv.equals("candidate"))
+                    if(priv.equals("worker") || priv.equals("candidate")) {
                         dbConnect.removeUser(userName);
-                    break;
+                        response.sendRedirect("ManagerOperationsSuccess.html");
+                        return;
+                    }
+
                 case "2":
-                    if(priv.equals("candidate"))
+                    if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
-                    break;
+                        response.sendRedirect("ManagerOperationsSuccess.html");
+                        return;
+                    }
                 case "3":
                     if(priv.equals("candidate") || priv.equals("worker") || priv.equals("manager"))
                         {
@@ -43,6 +62,7 @@ public class ManagerOperationServlet extends HttpServlet {
                             return;
                         }
                 default:
+
                     break;
             }
         }
