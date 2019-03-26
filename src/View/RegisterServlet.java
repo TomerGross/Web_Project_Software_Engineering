@@ -24,6 +24,10 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             String email = request.getParameter("email").toString();
             String psw = request.getParameter("psw").toString();
 
+            if(dbconnection.userInDb(userName)){
+                response.sendRedirect("RegisterError.html");
+                return;
+            }
 
             dbconnection.registerUser(userName, firstName, lastName, id, email, psw, "candidate");
 

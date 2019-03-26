@@ -23,6 +23,8 @@ public class ManagerOperationServlet extends HttpServlet {
             String priv = dbConnect.getPrivilege(userName);
 
 
+            System.out.println("im: " + sessionUserName + " doing on: " + userName + "  opeation: " + op);
+
             if(!dbConnect.userInDb(userName)) {
                 response.sendRedirect("ManagerOperationsUserNotFound.html");
                 return;
@@ -37,8 +39,12 @@ public class ManagerOperationServlet extends HttpServlet {
             if(priv.equals("admin")){
                 response.sendRedirect("ManagerOperationsUnauthorized.html");
                 return;
+            } else if(priv.equals("manager") && !op.equals("3")){
+                response.sendRedirect("ManagerOperationsUnauthorized.html");
+                return;
             }
 
+            System.out.println("now: " + op+ " im: " + priv);
 
             switch (op) {
                 case "1":
@@ -47,6 +53,7 @@ public class ManagerOperationServlet extends HttpServlet {
                         response.sendRedirect("ManagerOperationsSuccess.html");
                         return;
                     }
+                    break;
 
                 case "2":
                     if(priv.equals("candidate")) {
@@ -54,13 +61,13 @@ public class ManagerOperationServlet extends HttpServlet {
                         response.sendRedirect("ManagerOperationsSuccess.html");
                         return;
                     }
+                    break;
                 case "3":
-                    if(priv.equals("candidate") || priv.equals("worker") || priv.equals("manager"))
-                        {
-                            request.getSession().setAttribute("details",userName);
-                            response.sendRedirect("ManagerUserDetails.jsp");
-                            return;
-                        }
+
+                    request.getSession().setAttribute("details",userName);
+                    response.sendRedirect("ManagerUserDetails.jsp");
+                    return;
+
                 default:
 
                     break;

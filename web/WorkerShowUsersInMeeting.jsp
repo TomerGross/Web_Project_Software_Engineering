@@ -14,7 +14,7 @@
     <br>
     <div class="mydh">
         <a href="WorkerDetails.jsp">My Details</a>
-        <a href="WorkerMeetings.html">My Meetings</a>
+        <a href="WorkerMeetings.jsp">My Meetings</a>
         <a href="WorkerCreateMeeting.jsp">Create Meeting</a>
     </div>
 
