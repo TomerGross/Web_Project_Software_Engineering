@@ -129,7 +129,8 @@ body{
 .title{
     font-size: 70px;
     margin-left: 38%;
-    margin-top: 5%
+    margin-top: 5%;
+    position: absolute;
 
 }
 
@@ -266,7 +267,6 @@ input:focus {
 .inputWithIcon input:focus + i {
     color: black;
 }
-
 
 
 input[type=radio] {

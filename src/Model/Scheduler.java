@@ -107,7 +107,6 @@ public class Scheduler {
         int count = 0;
         while(count<31) {
             for (String name : userNames) {
-                System.out.println(name + " is free:" + free(name, date));
                 if(!free(name, date))
                 {
                     flag=false;
