@@ -23,7 +23,7 @@ import java.io.IOException;
             }
             String userName = request.getParameter("userName");
             if(!dbConnect.userInDb(userName)) {
-                response.sendRedirect("AdminOperationsUserNotFound.html");
+                response.sendRedirect("AdminOperationsUserNotFound.jsp");
                 return;
             }
 
@@ -35,13 +35,13 @@ import java.io.IOException;
 
             if(userName.equals(sessionUserName)) {
                 //block the option to use self operations
-                response.sendRedirect("AdminOperationsSelfError.html");
+                response.sendRedirect("AdminOperationsSelfError.jsp");
                 return;
             }
 
             if(priv.equals("admin")){
                 //admin is untouchable
-                response.sendRedirect("AdminOperationsUnauthorized.html");
+                response.sendRedirect("AdminOperationsUnauthorized.jsp");
                 return;
             }
 
@@ -50,19 +50,19 @@ import java.io.IOException;
                 case "1":
                     //fire user
                     dbConnect.removeUser(userName);
-                    response.sendRedirect("AdminOperationsSuccess.html");
+                    response.sendRedirect("AdminOperationsSuccess.jsp");
                     return;
 
                 case "2":
                     //promote user
                     if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
-                        response.sendRedirect("AdminOperationsSuccess.html");
+                        response.sendRedirect("AdminOperationsSuccess.jsp");
                         return;
                     }
                     else if(priv.equals("worker")) {
                         dbConnect.setPrivilege(userName, "manager");
-                        response.sendRedirect("AdminOperationsSuccess.html");
+                        response.sendRedirect("AdminOperationsSuccess.jsp");
                         return;
                     }
                     break;
@@ -70,17 +70,17 @@ import java.io.IOException;
                     //demote user
                     if(priv.equals("candidate") || priv.equals("worker")) {
                         dbConnect.removeUser(userName);
-                        response.sendRedirect("AdminOperationsSuccess.html");
+                        response.sendRedirect("AdminOperationsSuccess.jsp");
                         return;
                     }
                     else if(priv.equals("manager")) {
                         dbConnect.setPrivilege(userName, "worker");
-                        response.sendRedirect("AdminOperationsSuccess.html");
+                        response.sendRedirect("AdminOperationsSuccess.jsp");
                         return;
                     }
                     else {
                         dbConnect.setPrivilege(userName, "manager");
-                        response.sendRedirect("AdminOperationsSuccess.html");
+                        response.sendRedirect("AdminOperationsSuccess.jsp");
                         return;
                     }
 
@@ -97,7 +97,7 @@ import java.io.IOException;
             }
         }
         catch (Exception e){}
-        response.sendRedirect("AdminOperations.html");
+        response.sendRedirect("AdminOperations.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

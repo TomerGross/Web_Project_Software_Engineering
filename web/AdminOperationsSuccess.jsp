@@ -1,3 +1,4 @@
+<%@ page import="Controller.DBConnect" %>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="styles2.css">
@@ -6,7 +7,15 @@
 </head>
 <body>
 
-
+<%
+    DBConnect dbconnectoin = DBConnect.getInstance();
+    String curr_userName = (String) session.getAttribute("userName");
+    if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("admin"))
+    {
+        response.sendRedirect("Hack.html");
+        return;
+    }
+%>
 <div class="sidebar">
     <div class="logo">
         <img src="Extra/LOGO.png">
@@ -15,7 +24,7 @@
     <div class="mydh">
         <a href="AdminDetails.jsp">My Details</a>
         <a href="AdminShowUsers.jsp">Active Users</a>
-        <a href="AdminOperations.html">Operations</a>
+        <a href="AdminOperations.jsp">Operations</a>
 
 
         <form action="OutServlet" method="post">

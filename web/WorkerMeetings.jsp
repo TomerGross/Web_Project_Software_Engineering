@@ -6,7 +6,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<%
+    DBConnect dbconnectoin = DBConnect.getInstance();
+    String curr_userName = (String) session.getAttribute("userName");
+    if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("worker"))
+    {
+        response.sendRedirect("Hack.html");
+        return;
+    }
+%>
 <div class="sidebar">
     <div class="logo">
         <img src="Extra/LOGO.png">

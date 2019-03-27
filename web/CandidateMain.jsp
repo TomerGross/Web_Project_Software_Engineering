@@ -1,3 +1,4 @@
+<%@ page import="Controller.DBConnect" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,15 @@
 
 
 <body>
-
+<%
+  DBConnect dbconnectoin = DBConnect.getInstance();
+  String curr_userName = (String) session.getAttribute("userName");
+  if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("candidate"))
+  {
+    response.sendRedirect("Hack.html");
+    return;
+  }
+%>
 <div class="sidebar">
   <div class="logo">
     <img src="Extra/LOGO.png">

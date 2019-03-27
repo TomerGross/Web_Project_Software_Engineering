@@ -27,23 +27,23 @@ public class ManagerOperationServlet extends HttpServlet {
             System.out.println("im: " + sessionUserName + " doing on: " + userName + "  opeation: " + op);
 
             if(!dbConnect.userInDb(userName)) {
-                response.sendRedirect("ManagerOperationsUserNotFound.html");
+                response.sendRedirect("ManagerOperationsUserNotFound.jsp");
                 return;
             }
 
             if(userName.equals(sessionUserName)) {
                 //block the option to use self operations
-                response.sendRedirect("ManagerOperationsSelfError.html");
+                response.sendRedirect("ManagerOperationsSelfError.jsp");
                 return;
             }
 
 
             if(priv.equals("admin")){
                 //unauthorized operation on admin/manager(the only option is to show user data)
-                response.sendRedirect("ManagerOperationsUnauthorized.html");
+                response.sendRedirect("ManagerOperationsUnauthorized.jsp");
                 return;
             } else if(priv.equals("manager") && !op.equals("3")){
-                response.sendRedirect("ManagerOperationsUnauthorized.html");
+                response.sendRedirect("ManagerOperationsUnauthorized.jsp");
                 return;
             }
 
@@ -54,7 +54,7 @@ public class ManagerOperationServlet extends HttpServlet {
                     //fire user
                     if(priv.equals("worker") || priv.equals("candidate")) {
                         dbConnect.removeUser(userName);
-                        response.sendRedirect("ManagerOperationsSuccess.html");
+                        response.sendRedirect("ManagerOperationsSuccess.jsp");
                         return;
                     }
                     break;
@@ -63,7 +63,7 @@ public class ManagerOperationServlet extends HttpServlet {
                     //hire someone to job
                     if(priv.equals("candidate")) {
                         dbConnect.setPrivilege(userName, "worker");
-                        response.sendRedirect("ManagerOperationsSuccess.html");
+                        response.sendRedirect("ManagerOperationsSuccess.jsp");
                         return;
                     }
                     break;
@@ -80,7 +80,7 @@ public class ManagerOperationServlet extends HttpServlet {
         }
         catch (Exception e){
         }
-        response.sendRedirect("ManagerOperations.html");
+        response.sendRedirect("ManagerOperations.jsp");
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

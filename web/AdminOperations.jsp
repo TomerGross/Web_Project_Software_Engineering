@@ -1,3 +1,4 @@
+<%@ page import="Controller.DBConnect" %>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" href="styles2.css">
@@ -5,7 +6,15 @@
 
 </head>
 <body>
-
+<%
+    DBConnect dbconnectoin = DBConnect.getInstance();
+    String curr_userName = (String) session.getAttribute("userName");
+    if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("admin"))
+    {
+        response.sendRedirect("Hack.html");
+        return;
+    }
+%>
 
 <div class="sidebar">
     <div class="logo">
@@ -15,7 +24,7 @@
     <div class="mydh">
         <a href="AdminDetails.jsp">My Details</a>
         <a href="AdminShowUsers.jsp">Active Users</a>
-        <a href="AdminOperations.html">Operations</a>
+        <a href="AdminOperations.jsp">Operations</a>
 
 
         <form action="OutServlet" method="post">
@@ -31,12 +40,10 @@
 <form class="operations" action="AdminOperationServlet" method="post">
 
 
-    <input type="text" placeholder="User Name" name="userName">
+    <input type="text" placeholder="User Name" name="userName" style="margin-left: 46.5%">
     <button type="submit"><i class="fa fa-user"></i></button>
 
-    <div class="myd_msg error" >
-        you can not use operations on yourself!
-    </div> <br>
+
 
     <div class="radio-group">
         <input type="radio" id="option-one" name="operation" value="1">

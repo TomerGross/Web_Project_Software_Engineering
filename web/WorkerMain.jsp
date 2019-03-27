@@ -1,3 +1,4 @@
+<%@ page import="Controller.DBConnect" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,16 +13,24 @@
 
 
 <body>
-
+<%
+  DBConnect dbconnectoin = DBConnect.getInstance();
+  String curr_userName = (String) session.getAttribute("userName");
+  if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("worker"))
+  {
+    response.sendRedirect("Hack.html");
+    return;
+  }
+%>
 <div class="sidebar">
   <div class="logo">
     <img src="Extra/LOGO.png">
   </div>
   <br>
   <div class="mydh">
-    <a href="AdminDetails.jsp">My Details</a>
-    <a href="AdminShowUsers.jsp">Active Users</a>
-    <a href="AdminOperations.html">Operations</a>
+    <a href="WorkerDetails.jsp">My Details</a>
+    <a href="WorkerMeetings.jsp">My Meetings</a>
+    <a href="WorkerCreateMeeting.jsp">Create Meeting</a>
 
 
     <form action="OutServlet" method="post">
@@ -40,7 +49,7 @@
 
 
 <div class="title">
-  Welcome Admin
+  Welcome Worker
 </div>
 
 

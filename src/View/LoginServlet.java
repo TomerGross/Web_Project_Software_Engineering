@@ -30,23 +30,23 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
                 //send redirect to the match welcome page
                 case "candidate":
-                    response.sendRedirect("CandidateMain.html");
+                    response.sendRedirect("CandidateMain.jsp");
                     break;
 
                 case "worker":
-                    response.sendRedirect("WorkerMain.html");
+                    response.sendRedirect("WorkerMain.jsp");
                     break;
 
                 case "manager":
-                    response.sendRedirect("ManagerMain.html");
+                    response.sendRedirect("ManagerMain.jsp");
                     break;
 
                 case "admin":
-                    response.sendRedirect("AdminMain.html");
+                    response.sendRedirect("AdminMain.jsp");
                     break;
 
                 default:
-                    response.sendRedirect("CandidateMain.html");
+                    response.sendRedirect("CandidateMain.jsp");
                     break;
 
 

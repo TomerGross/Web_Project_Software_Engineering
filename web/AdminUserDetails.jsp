@@ -5,7 +5,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<%
+    DBConnect dbconnectoin = DBConnect.getInstance();
+    String curr_username = (String) session.getAttribute("userName");
+    if(dbconnectoin.getPrivilege(curr_username)==null || !dbconnectoin.getPrivilege(curr_username).equals("admin"))
+    {
+        response.sendRedirect("Hack.html");
+        return;
+    }
+%>
 
 <div class="sidebar">
     <div class="logo">
@@ -15,7 +23,7 @@
     <div class="mydh">
         <a href="AdminDetails.jsp">My Details</a>
         <a href="AdminShowUsers.jsp">Active Users</a>
-        <a href="AdminOperations.html">Operations</a>
+        <a href="AdminOperations.jsp">Operations</a>
 
 
         <form action="OutServlet" method="post">
@@ -31,7 +39,6 @@
 </div>
 
 <%
-    DBConnect dbconnectoin = DBConnect.getInstance();
     String curr_userName = (String) session.getAttribute("details");
 %>
 

@@ -1,3 +1,4 @@
+<%@ page import="Controller.DBConnect" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,15 @@
 
 
 <body>
-
+<%
+  DBConnect dbconnectoin = DBConnect.getInstance();
+  String curr_userName = (String) session.getAttribute("userName");
+  if(dbconnectoin.getPrivilege(curr_userName)==null || !dbconnectoin.getPrivilege(curr_userName).equals("manager"))
+  {
+    response.sendRedirect("Hack.html");
+    return;
+  }
+%>
 <div class="sidebar">
   <div class="logo">
     <img src="Extra/LOGO.png">
@@ -23,7 +32,7 @@
     <a href="ManagerMeetings.jsp">My Meetings</a>
     <a href="ManagerCreateMeeting.jsp">Create Meeting</a>
     <a href="ManagerShowUsers.jsp">Active Users</a>
-    <a href="ManagerOperations.html">Operations</a>
+    <a href="ManagerOperations.jsp">Operations</a>
 
 
 
